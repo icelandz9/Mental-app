@@ -171,7 +171,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       child: const Text(
-                        "Log in / เข้าสู่ระบบ",
+                        "Log In / เข้าสู่ระบบ",
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,

@@ -2,7 +2,7 @@
 // รองรับแต่ละแบบทดสอบที่มีตัวเลือก/คะแนนต่างกัน (เช่น 0-3, 0-4, ใช่/ไม่ใช่)
 class Question {
   final String instrument;   // รหัสแบบทดสอบ เช่น 'PHQ-9' (ใช้จัดกลุ่มตอนคิดคะแนน)
-  final String category;     // ป้ายหมวดที่โชว์บนการ์ด เช่น 'PHQ-9 ซึมเศร้า'
+  final String category;     // ป้ายหมวดที่โชว์บนการ์ด (ถ้าว่างจะใช้ instrument แทน)
   final String questionTh;   // คำถามภาษาไทย
   final String questionEn;   // คำถามภาษาอังกฤษ
   final List<String> options; // ตัวเลือกของข้อนี้ (เรียงจากน้อยไปมาก)
@@ -11,7 +11,7 @@ class Question {
 
   const Question({
     required this.instrument,
-    required this.category,
+    this.category = '',
     required this.questionTh,
     required this.questionEn,
     required this.options,

@@ -56,7 +56,7 @@ const List<Question> questions = [
   // ===== 1) PHQ-9 ซึมเศร้า (9 ข้อ) =====
   Question(
     instrument: 'PHQ-9',
-    category: 'PHQ-9 ซึมเศร้า',
+    // category: 'PHQ-9 ซึมเศร้า',
     questionTh: 'เบื่อ ไม่สนใจ หรือไม่อยากทำอะไรเลย',
     questionEn: 'Little interest or pleasure in doing things',
     options: _opt4,
@@ -64,7 +64,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PHQ-9',
-    category: 'PHQ-9 ซึมเศร้า',
+    // category: 'PHQ-9 ซึมเศร้า',
     questionTh: 'รู้สึกเศร้า ท้อแท้ หรือสิ้นหวัง',
     questionEn: 'Feeling down, depressed, or hopeless',
     options: _opt4,
@@ -72,7 +72,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PHQ-9',
-    category: 'PHQ-9 ซึมเศร้า',
+    // category: 'PHQ-9 ซึมเศร้า',
     questionTh: 'หลับยาก หลับๆ ตื่นๆ หรือหลับมากเกินไป',
     questionEn: 'Trouble falling or staying asleep, or sleeping too much',
     options: _opt4,
@@ -80,7 +80,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PHQ-9',
-    category: 'PHQ-9 ซึมเศร้า',
+    // category: 'PHQ-9 ซึมเศร้า',
     questionTh: 'เหนื่อยง่าย หรือไม่ค่อยมีแรง',
     questionEn: 'Feeling tired or having little energy',
     options: _opt4,
@@ -88,7 +88,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PHQ-9',
-    category: 'PHQ-9 ซึมเศร้า',
+    // category: 'PHQ-9 ซึมเศร้า',
     questionTh: 'เบื่ออาหาร หรือกินมากเกินไป',
     questionEn: 'Poor appetite or overeating',
     options: _opt4,
@@ -96,7 +96,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PHQ-9',
-    category: 'PHQ-9 ซึมเศร้า',
+    // category: 'PHQ-9 ซึมเศร้า',
     questionTh: 'รู้สึกแย่กับตัวเอง คิดว่าตัวเองล้มเหลว หรือทำให้คนอื่นผิดหวัง',
     questionEn: 'Feeling bad about yourself, or that you are a failure',
     options: _opt4,
@@ -104,7 +104,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PHQ-9',
-    category: 'PHQ-9 ซึมเศร้า',
+    // category: 'PHQ-9 ซึมเศร้า',
     questionTh: 'สมาธิไม่ดี เช่น เวลาอ่านหนังสือหรือดูทีวี',
     questionEn: 'Trouble concentrating on things',
     options: _opt4,
@@ -112,7 +112,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PHQ-9',
-    category: 'PHQ-9 ซึมเศร้า',
+    // category: 'PHQ-9 ซึมเศร้า',
     questionTh: 'พูดหรือเคลื่อนไหวช้าจนคนอื่นสังเกตได้ หรือกระสับกระส่ายอยู่ไม่นิ่ง',
     questionEn: 'Moving or speaking slowly, or being fidgety/restless',
     options: _opt4,
@@ -120,7 +120,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PHQ-9',
-    category: 'PHQ-9 ซึมเศร้า',
+    // category: 'PHQ-9 ซึมเศร้า',
     questionTh: 'คิดว่าถ้าตายไปคงดีกว่า หรือคิดทำร้ายตัวเอง',
     questionEn: 'Thoughts that you would be better off dead or of hurting yourself',
     options: _opt4,
@@ -130,7 +130,7 @@ const List<Question> questions = [
   // ===== 2) GAD-7 วิตกกังวล (7 ข้อ) =====
   Question(
     instrument: 'GAD-7',
-    category: 'GAD-7 วิตกกังวล',
+    // category: 'GAD-7 วิตกกังวล',
     questionTh: 'รู้สึกประหม่า วิตกกังวล หรือกระวนกระวาย',
     questionEn: 'Feeling nervous, anxious, or on edge',
     options: _opt4,
@@ -138,7 +138,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'GAD-7',
-    category: 'GAD-7 วิตกกังวล',
+    // category: 'GAD-7 วิตกกังวล',
     questionTh: 'หยุดหรือควบคุมความกังวลไม่ได้',
     questionEn: 'Not being able to stop or control worrying',
     options: _opt4,
@@ -146,7 +146,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'GAD-7',
-    category: 'GAD-7 วิตกกังวล',
+    // category: 'GAD-7 วิตกกังวล',
     questionTh: 'กังวลมากเกินไปกับเรื่องต่างๆ',
     questionEn: 'Worrying too much about different things',
     options: _opt4,
@@ -154,7 +154,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'GAD-7',
-    category: 'GAD-7 วิตกกังวล',
+    // category: 'GAD-7 วิตกกังวล',
     questionTh: 'ผ่อนคลายได้ยาก',
     questionEn: 'Trouble relaxing',
     options: _opt4,
@@ -162,7 +162,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'GAD-7',
-    category: 'GAD-7 วิตกกังวล',
+    // category: 'GAD-7 วิตกกังวล',
     questionTh: 'กระสับกระส่ายจนนั่งนิ่งๆ ได้ยาก',
     questionEn: 'Being so restless that it is hard to sit still',
     options: _opt4,
@@ -170,7 +170,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'GAD-7',
-    category: 'GAD-7 วิตกกังวล',
+    // category: 'GAD-7 วิตกกังวล',
     questionTh: 'หงุดหงิดหรือฉุนเฉียวง่าย',
     questionEn: 'Becoming easily annoyed or irritable',
     options: _opt4,
@@ -178,7 +178,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'GAD-7',
-    category: 'GAD-7 วิตกกังวล',
+    // category: 'GAD-7 วิตกกังวล',
     questionTh: 'รู้สึกกลัวเหมือนจะมีเรื่องเลวร้ายเกิดขึ้น',
     questionEn: 'Feeling afraid as if something awful might happen',
     options: _opt4,
@@ -188,7 +188,7 @@ const List<Question> questions = [
   // ===== 3) PSS-10 ความเครียด (10 ข้อ; ข้อ 4,5,7,8 กลับคะแนน) =====
   Question(
     instrument: 'PSS-10',
-    category: 'PSS-10 ความเครียด',
+    // category: 'PSS-10 ความเครียด',
     questionTh: 'รู้สึกไม่สบายใจกับเรื่องที่เกิดขึ้นโดยไม่คาดคิด',
     questionEn: 'Been upset because of something that happened unexpectedly',
     options: _optPss,
@@ -196,7 +196,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PSS-10',
-    category: 'PSS-10 ความเครียด',
+    // category: 'PSS-10 ความเครียด',
     questionTh: 'รู้สึกว่าควบคุมสิ่งสำคัญในชีวิตไม่ได้',
     questionEn: 'Felt unable to control the important things in your life',
     options: _optPss,
@@ -204,7 +204,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PSS-10',
-    category: 'PSS-10 ความเครียด',
+    // category: 'PSS-10 ความเครียด',
     questionTh: 'รู้สึกประหม่าและเครียด',
     questionEn: 'Felt nervous and stressed',
     options: _optPss,
@@ -212,7 +212,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PSS-10',
-    category: 'PSS-10 ความเครียด',
+    // category: 'PSS-10 ความเครียด',
     questionTh: 'รู้สึกมั่นใจว่าจัดการปัญหาส่วนตัวได้',
     questionEn: 'Felt confident about your ability to handle personal problems',
     options: _optPss,
@@ -220,7 +220,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PSS-10',
-    category: 'PSS-10 ความเครียด',
+    // category: 'PSS-10 ความเครียด',
     questionTh: 'รู้สึกว่าสิ่งต่างๆ เป็นไปอย่างที่ต้องการ',
     questionEn: 'Felt that things were going your way',
     options: _optPss,
@@ -228,7 +228,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PSS-10',
-    category: 'PSS-10 ความเครียด',
+    // category: 'PSS-10 ความเครียด',
     questionTh: 'รู้สึกว่ารับมือกับสิ่งที่ต้องทำทั้งหมดไม่ไหว',
     questionEn: 'Found that you could not cope with all the things you had to do',
     options: _optPss,
@@ -236,7 +236,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PSS-10',
-    category: 'PSS-10 ความเครียด',
+    // category: 'PSS-10 ความเครียด',
     questionTh: 'สามารถควบคุมความหงุดหงิดในชีวิตได้',
     questionEn: 'Been able to control irritations in your life',
     options: _optPss,
@@ -244,7 +244,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PSS-10',
-    category: 'PSS-10 ความเครียด',
+    // category: 'PSS-10 ความเครียด',
     questionTh: 'รู้สึกว่าจัดการทุกอย่างได้ดี',
     questionEn: 'Felt that you were on top of things',
     options: _optPss,
@@ -252,7 +252,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PSS-10',
-    category: 'PSS-10 ความเครียด',
+    // category: 'PSS-10 ความเครียด',
     questionTh: 'โกรธกับสิ่งที่อยู่นอกเหนือการควบคุม',
     questionEn: 'Been angered because of things outside of your control',
     options: _optPss,
@@ -260,7 +260,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PSS-10',
-    category: 'PSS-10 ความเครียด',
+    // category: 'PSS-10 ความเครียด',
     questionTh: 'รู้สึกว่าปัญหากองสูงจนรับมือไม่ไหว',
     questionEn: 'Felt difficulties were piling up so high you could not overcome them',
     options: _optPss,
@@ -270,7 +270,7 @@ const List<Question> questions = [
   // ===== 4) ASRS v1.1 ADHD (18 ข้อ; 6 ข้อแรกเป็น Part A) =====
   Question(
     instrument: 'ASRS',
-    category: 'ASRS โรคสมาธิสั้น',
+    // category: 'ASRS โรคสมาธิสั้น',
     questionTh: 'มีปัญหาจัดการรายละเอียดขั้นสุดท้ายของงานให้เสร็จ หลังจากส่วนที่ยากผ่านไปแล้ว',
     questionEn: 'Trouble wrapping up the final details of a project',
     options: _optAsrs,
@@ -279,7 +279,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'ASRS',
-    category: 'ASRS โรคสมาธิสั้น',
+    // category: 'ASRS โรคสมาธิสั้น',
     questionTh: 'จัดลำดับงานที่ต้องอาศัยการจัดระบบได้ยาก',
     questionEn: 'Difficulty getting things in order for a task requiring organization',
     options: _optAsrs,
@@ -288,7 +288,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'ASRS',
-    category: 'ASRS โรคสมาธิสั้น',
+    // category: 'ASRS โรคสมาธิสั้น',
     questionTh: 'ลืมนัดหมายหรือสิ่งที่ต้องทำ',
     questionEn: 'Problems remembering appointments or obligations',
     options: _optAsrs,
@@ -297,7 +297,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'ASRS',
-    category: 'ASRS โรคสมาธิสั้น',
+    // category: 'ASRS โรคสมาธิสั้น',
     questionTh: 'หลีกเลี่ยงหรือผัดวันงานที่ต้องใช้ความคิดมาก',
     questionEn: 'Avoid or delay getting started on tasks that require a lot of thought',
     options: _optAsrs,
@@ -306,7 +306,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'ASRS',
-    category: 'ASRS โรคสมาธิสั้น',
+    // category: 'ASRS โรคสมาธิสั้น',
     questionTh: 'ขยับมือหรือเท้าไปมาเมื่อต้องนั่งนานๆ',
     questionEn: 'Fidget or squirm with hands or feet when sitting for a long time',
     options: _optAsrs,
@@ -315,7 +315,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'ASRS',
-    category: 'ASRS โรคสมาธิสั้น',
+    // category: 'ASRS โรคสมาธิสั้น',
     questionTh: 'รู้สึกกระตือรือร้นมากเกินไป เหมือนถูกขับด้วยมอเตอร์',
     questionEn: 'Feel overly active and compelled to do things, like driven by a motor',
     options: _optAsrs,
@@ -324,7 +324,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'ASRS',
-    category: 'ASRS โรคสมาธิสั้น',
+    // category: 'ASRS โรคสมาธิสั้น',
     questionTh: 'ทำผิดพลาดเล็กๆ น้อยๆ ในงานที่น่าเบื่อหรือยาก',
     questionEn: 'Make careless mistakes on a boring or difficult project',
     options: _optAsrs,
@@ -332,7 +332,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'ASRS',
-    category: 'ASRS โรคสมาธิสั้น',
+    // category: 'ASRS โรคสมาธิสั้น',
     questionTh: 'ตั้งใจจดจ่อกับงานน่าเบื่อหรือซ้ำๆ ได้ยาก',
     questionEn: 'Difficulty keeping attention on boring or repetitive work',
     options: _optAsrs,
@@ -340,7 +340,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'ASRS',
-    category: 'ASRS โรคสมาธิสั้น',
+    // category: 'ASRS โรคสมาธิสั้น',
     questionTh: 'มีสมาธิฟังคนพูดได้ยาก แม้เขาพูดกับคุณโดยตรง',
     questionEn: 'Difficulty concentrating on what people say, even when speaking to you directly',
     options: _optAsrs,
@@ -348,7 +348,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'ASRS',
-    category: 'ASRS โรคสมาธิสั้น',
+    // category: 'ASRS โรคสมาธิสั้น',
     questionTh: 'วางของผิดที่ หรือหาของไม่เจอ',
     questionEn: 'Misplace or have difficulty finding things at home or work',
     options: _optAsrs,
@@ -356,7 +356,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'ASRS',
-    category: 'ASRS โรคสมาธิสั้น',
+    // category: 'ASRS โรคสมาธิสั้น',
     questionTh: 'วอกแวกง่ายกับสิ่งรอบตัวหรือเสียงรบกวน',
     questionEn: 'Distracted by activity or noise around you',
     options: _optAsrs,
@@ -364,7 +364,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'ASRS',
-    category: 'ASRS โรคสมาธิสั้น',
+    // category: 'ASRS โรคสมาธิสั้น',
     questionTh: 'ลุกจากที่นั่งในที่ที่ควรนั่งอยู่กับที่',
     questionEn: 'Leave your seat in situations where you are expected to remain seated',
     options: _optAsrs,
@@ -372,7 +372,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'ASRS',
-    category: 'ASRS โรคสมาธิสั้น',
+    // category: 'ASRS โรคสมาธิสั้น',
     questionTh: 'รู้สึกกระสับกระส่ายหรืออยู่ไม่นิ่ง',
     questionEn: 'Feel restless or fidgety',
     options: _optAsrs,
@@ -380,7 +380,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'ASRS',
-    category: 'ASRS โรคสมาธิสั้น',
+    // category: 'ASRS โรคสมาธิสั้น',
     questionTh: 'ผ่อนคลายได้ยากเมื่อมีเวลาว่าง',
     questionEn: 'Difficulty unwinding and relaxing when you have time to yourself',
     options: _optAsrs,
@@ -388,7 +388,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'ASRS',
-    category: 'ASRS โรคสมาธิสั้น',
+    // category: 'ASRS โรคสมาธิสั้น',
     questionTh: 'พูดมากเกินไปในสถานการณ์ทางสังคม',
     questionEn: 'Find yourself talking too much in social situations',
     options: _optAsrs,
@@ -396,7 +396,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'ASRS',
-    category: 'ASRS โรคสมาธิสั้น',
+    // category: 'ASRS โรคสมาธิสั้น',
     questionTh: 'พูดแทรกหรือต่อประโยคให้คนอื่นก่อนเขาพูดจบ',
     questionEn: "Finish others' sentences before they can finish them themselves",
     options: _optAsrs,
@@ -404,7 +404,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'ASRS',
-    category: 'ASRS โรคสมาธิสั้น',
+    // category: 'ASRS โรคสมาธิสั้น',
     questionTh: 'รอคอยถึงตาตัวเองได้ยาก',
     questionEn: 'Difficulty waiting your turn',
     options: _optAsrs,
@@ -412,7 +412,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'ASRS',
-    category: 'ASRS โรคสมาธิสั้น',
+    // category: 'ASRS โรคสมาธิสั้น',
     questionTh: 'ขัดจังหวะผู้อื่นขณะที่เขากำลังยุ่ง',
     questionEn: 'Interrupt others when they are busy',
     options: _optAsrs,
@@ -422,7 +422,7 @@ const List<Question> questions = [
   // ===== 5) OCI-R ย้ำคิดย้ำทำ (18 ข้อ) =====
   Question(
     instrument: 'OCI-R',
-    category: 'OCI-R ย้ำคิดย้ำทำ',
+    // category: 'OCI-R ย้ำคิดย้ำทำ',
     questionTh: 'สะสมของไว้มากจนเกะกะ',
     questionEn: 'I have saved up so many things that they get in the way',
     options: _optOci,
@@ -430,7 +430,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'OCI-R',
-    category: 'OCI-R ย้ำคิดย้ำทำ',
+    // category: 'OCI-R ย้ำคิดย้ำทำ',
     questionTh: 'ตรวจสอบสิ่งต่างๆ บ่อยเกินจำเป็น',
     questionEn: 'I check things more often than necessary',
     options: _optOci,
@@ -438,7 +438,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'OCI-R',
-    category: 'OCI-R ย้ำคิดย้ำทำ',
+    // category: 'OCI-R ย้ำคิดย้ำทำ',
     questionTh: 'ไม่สบายใจถ้าของไม่ถูกจัดวางอย่างเป็นระเบียบ',
     questionEn: 'I get upset if objects are not arranged properly',
     options: _optOci,
@@ -446,7 +446,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'OCI-R',
-    category: 'OCI-R ย้ำคิดย้ำทำ',
+    // category: 'OCI-R ย้ำคิดย้ำทำ',
     questionTh: 'รู้สึกต้องนับเลขขณะทำสิ่งต่างๆ',
     questionEn: 'I feel compelled to count while I am doing things',
     options: _optOci,
@@ -454,7 +454,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'OCI-R',
-    category: 'OCI-R ย้ำคิดย้ำทำ',
+    // category: 'OCI-R ย้ำคิดย้ำทำ',
     questionTh: 'รู้สึกลำบากใจที่จะแตะของที่คนแปลกหน้าอาจเคยจับ',
     questionEn: 'I find it difficult to touch an object when I know it has been touched by strangers',
     options: _optOci,
@@ -462,7 +462,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'OCI-R',
-    category: 'OCI-R ย้ำคิดย้ำทำ',
+    // category: 'OCI-R ย้ำคิดย้ำทำ',
     questionTh: 'ควบคุมความคิดของตัวเองได้ยาก',
     questionEn: 'I find it difficult to control my own thoughts',
     options: _optOci,
@@ -470,7 +470,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'OCI-R',
-    category: 'OCI-R ย้ำคิดย้ำทำ',
+    // category: 'OCI-R ย้ำคิดย้ำทำ',
     questionTh: 'เก็บสะสมของที่ไม่จำเป็น',
     questionEn: 'I collect things I do not need',
     options: _optOci,
@@ -478,7 +478,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'OCI-R',
-    category: 'OCI-R ย้ำคิดย้ำทำ',
+    // category: 'OCI-R ย้ำคิดย้ำทำ',
     questionTh: 'ตรวจประตู หน้าต่าง ลิ้นชัก ซ้ำๆ',
     questionEn: 'I repeatedly check doors, windows, drawers, etc.',
     options: _optOci,
@@ -486,7 +486,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'OCI-R',
-    category: 'OCI-R ย้ำคิดย้ำทำ',
+    // category: 'OCI-R ย้ำคิดย้ำทำ',
     questionTh: 'ไม่สบายใจถ้าคนอื่นมาเปลี่ยนการจัดวางของฉัน',
     questionEn: 'I get upset if others change the way I have arranged things',
     options: _optOci,
@@ -494,7 +494,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'OCI-R',
-    category: 'OCI-R ย้ำคิดย้ำทำ',
+    // category: 'OCI-R ย้ำคิดย้ำทำ',
     questionTh: 'รู้สึกต้องนับเลขบางตัวซ้ำๆ',
     questionEn: 'I feel that I have to repeat certain numbers',
     options: _optOci,
@@ -502,7 +502,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'OCI-R',
-    category: 'OCI-R ย้ำคิดย้ำทำ',
+    // category: 'OCI-R ย้ำคิดย้ำทำ',
     questionTh: 'ล้างมือหรือทำความสะอาดตัวเพราะรู้สึกเปื้อนหรือปนเปื้อน',
     questionEn: 'I wash or clean myself because I feel contaminated',
     options: _optOci,
@@ -510,7 +510,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'OCI-R',
-    category: 'OCI-R ย้ำคิดย้ำทำ',
+    // category: 'OCI-R ย้ำคิดย้ำทำ',
     questionTh: 'ทุกข์ใจกับความคิดไม่ดีที่ผุดขึ้นมาเองโดยไม่ตั้งใจ',
     questionEn: 'I am upset by unpleasant thoughts that come into my mind against my will',
     options: _optOci,
@@ -518,7 +518,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'OCI-R',
-    category: 'OCI-R ย้ำคิดย้ำทำ',
+    // category: 'OCI-R ย้ำคิดย้ำทำ',
     questionTh: 'ไม่กล้าทิ้งของเพราะกลัวว่าจะต้องใช้ภายหลัง',
     questionEn: 'I avoid throwing things away because I am afraid I might need them later',
     options: _optOci,
@@ -526,7 +526,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'OCI-R',
-    category: 'OCI-R ย้ำคิดย้ำทำ',
+    // category: 'OCI-R ย้ำคิดย้ำทำ',
     questionTh: 'ตรวจก๊อกน้ำ แก๊ส หรือสวิตช์ไฟซ้ำๆ หลังปิดแล้ว',
     questionEn: 'I repeatedly check gas and water taps and light switches after turning them off',
     options: _optOci,
@@ -534,7 +534,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'OCI-R',
-    category: 'OCI-R ย้ำคิดย้ำทำ',
+    // category: 'OCI-R ย้ำคิดย้ำทำ',
     questionTh: 'ต้องการให้ของถูกจัดเรียงตามลำดับเฉพาะ',
     questionEn: 'I need things to be arranged in a particular order',
     options: _optOci,
@@ -542,7 +542,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'OCI-R',
-    category: 'OCI-R ย้ำคิดย้ำทำ',
+    // category: 'OCI-R ย้ำคิดย้ำทำ',
     questionTh: 'รู้สึกว่าตัวเลขบางตัวมีความหมายดีหรือไม่ดี',
     questionEn: 'I feel that there are good and bad numbers',
     options: _optOci,
@@ -550,7 +550,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'OCI-R',
-    category: 'OCI-R ย้ำคิดย้ำทำ',
+    // category: 'OCI-R ย้ำคิดย้ำทำ',
     questionTh: 'ล้างมือบ่อยหรือนานเกินจำเป็น',
     questionEn: 'I wash my hands more often and longer than necessary',
     options: _optOci,
@@ -558,7 +558,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'OCI-R',
-    category: 'OCI-R ย้ำคิดย้ำทำ',
+    // category: 'OCI-R ย้ำคิดย้ำทำ',
     questionTh: 'มีความคิดแย่ๆ ผุดขึ้นบ่อย และกำจัดมันได้ยาก',
     questionEn: 'I frequently get nasty thoughts and have difficulty getting rid of them',
     options: _optOci,
@@ -568,7 +568,7 @@ const List<Question> questions = [
   // ===== 6) PCL-5 PTSD (20 ข้อ) =====
   Question(
     instrument: 'PCL-5',
-    category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
+    // category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
     questionTh: 'ความทรงจำที่รบกวนจิตใจเกี่ยวกับเหตุการณ์สะเทือนใจ ผุดขึ้นซ้ำๆ',
     questionEn: 'Repeated, disturbing memories of the stressful experience',
     options: _optPcl,
@@ -576,7 +576,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PCL-5',
-    category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
+    // category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
     questionTh: 'ฝันร้ายเกี่ยวกับเหตุการณ์นั้นซ้ำๆ',
     questionEn: 'Repeated, disturbing dreams of the stressful experience',
     options: _optPcl,
@@ -584,7 +584,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PCL-5',
-    category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
+    // category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
     questionTh: 'รู้สึกหรือทำเหมือนเหตุการณ์นั้นกำลังเกิดขึ้นอีกครั้ง',
     questionEn: 'Suddenly feeling or acting as if the experience were happening again',
     options: _optPcl,
@@ -592,7 +592,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PCL-5',
-    category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
+    // category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
     questionTh: 'รู้สึกไม่สบายใจอย่างมากเมื่อมีสิ่งเตือนให้นึกถึงเหตุการณ์',
     questionEn: 'Feeling very upset when something reminded you of the experience',
     options: _optPcl,
@@ -600,7 +600,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PCL-5',
-    category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
+    // category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
     questionTh: 'มีอาการทางร่างกายรุนแรง เช่น ใจสั่น เหงื่อออก เมื่อนึกถึงเหตุการณ์',
     questionEn: 'Strong physical reactions when reminded of the experience',
     options: _optPcl,
@@ -608,7 +608,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PCL-5',
-    category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
+    // category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
     questionTh: 'หลีกเลี่ยงความทรงจำ ความคิด หรือความรู้สึกเกี่ยวกับเหตุการณ์',
     questionEn: 'Avoiding memories, thoughts, or feelings related to the experience',
     options: _optPcl,
@@ -616,7 +616,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PCL-5',
-    category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
+    // category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
     questionTh: 'หลีกเลี่ยงสิ่งภายนอกที่เตือนถึงเหตุการณ์ เช่น ผู้คน สถานที่ กิจกรรม',
     questionEn: 'Avoiding external reminders of the experience',
     options: _optPcl,
@@ -624,7 +624,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PCL-5',
-    category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
+    // category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
     questionTh: 'จำส่วนสำคัญของเหตุการณ์ไม่ได้',
     questionEn: 'Trouble remembering important parts of the experience',
     options: _optPcl,
@@ -632,7 +632,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PCL-5',
-    category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
+    // category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
     questionTh: 'มีความเชื่อแง่ลบรุนแรงเกี่ยวกับตัวเอง ผู้อื่น หรือโลก',
     questionEn: 'Strong negative beliefs about yourself, other people, or the world',
     options: _optPcl,
@@ -640,7 +640,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PCL-5',
-    category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
+    // category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
     questionTh: 'โทษตัวเองหรือผู้อื่นสำหรับเหตุการณ์ที่เกิดขึ้น',
     questionEn: 'Blaming yourself or someone else for the experience',
     options: _optPcl,
@@ -648,7 +648,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PCL-5',
-    category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
+    // category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
     questionTh: 'มีความรู้สึกแง่ลบรุนแรง เช่น กลัว โกรธ รู้สึกผิด หรือละอาย',
     questionEn: 'Strong negative feelings such as fear, horror, anger, guilt, or shame',
     options: _optPcl,
@@ -656,7 +656,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PCL-5',
-    category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
+    // category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
     questionTh: 'หมดความสนใจในกิจกรรมที่เคยชอบ',
     questionEn: 'Loss of interest in activities you used to enjoy',
     options: _optPcl,
@@ -664,7 +664,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PCL-5',
-    category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
+    // category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
     questionTh: 'รู้สึกห่างเหินหรือตัดขาดจากผู้อื่น',
     questionEn: 'Feeling distant or cut off from other people',
     options: _optPcl,
@@ -672,7 +672,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PCL-5',
-    category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
+    // category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
     questionTh: 'รู้สึกถึงอารมณ์ดีๆ ได้ยาก',
     questionEn: 'Trouble experiencing positive feelings',
     options: _optPcl,
@@ -680,7 +680,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PCL-5',
-    category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
+    // category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
     questionTh: 'หงุดหงิด โมโหง่าย หรือมีพฤติกรรมก้าวร้าว',
     questionEn: 'Irritable behavior, angry outbursts, or acting aggressively',
     options: _optPcl,
@@ -688,7 +688,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PCL-5',
-    category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
+    // category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
     questionTh: 'ทำสิ่งเสี่ยงอันตราย หรืออาจทำให้ตัวเองเดือดร้อน',
     questionEn: 'Taking too many risks or doing things that could cause you harm',
     options: _optPcl,
@@ -696,7 +696,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PCL-5',
-    category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
+    // category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
     questionTh: 'ระแวดระวังตัวมากเกินไป คอยระวังภัยตลอด',
     questionEn: 'Being superalert or watchful or on guard',
     options: _optPcl,
@@ -704,7 +704,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PCL-5',
-    category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
+    // category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
     questionTh: 'สะดุ้งตกใจง่าย',
     questionEn: 'Feeling jumpy or easily startled',
     options: _optPcl,
@@ -712,7 +712,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PCL-5',
-    category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
+    // category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
     questionTh: 'มีสมาธิจดจ่อได้ยาก',
     questionEn: 'Having difficulty concentrating',
     options: _optPcl,
@@ -720,7 +720,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'PCL-5',
-    category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
+    // category: 'PCL-5 ภาวะเครียดหลังเหตุสะเทือนใจ',
     questionTh: 'หลับยากหรือหลับไม่สนิท',
     questionEn: 'Trouble falling or staying asleep',
     options: _optPcl,
@@ -730,7 +730,7 @@ const List<Question> questions = [
   // ===== 7) MDQ ไบโพลาร์ (13 ข้อ ใช่/ไม่ใช่) =====
   Question(
     instrument: 'MDQ',
-    category: 'MDQ ไบโพลาร์',
+    // category: 'MDQ ไบโพลาร์',
     questionTh: 'เคยมีช่วงที่รู้สึกอารมณ์ดีหรือคึกผิดปกติ จนคนอื่นคิดว่าคุณไม่ใช่ตัวคุณตามปกติ',
     questionEn: 'Felt so good or hyper that others thought you were not your normal self',
     options: _optYesNo,
@@ -738,7 +738,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'MDQ',
-    category: 'MDQ ไบโพลาร์',
+    // category: 'MDQ ไบโพลาร์',
     questionTh: 'เคยหงุดหงิดมากจนตะโกนใส่คนอื่น หรือมีเรื่องทะเลาะวิวาท',
     questionEn: 'Were so irritable that you shouted at people or started fights',
     options: _optYesNo,
@@ -746,7 +746,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'MDQ',
-    category: 'MDQ ไบโพลาร์',
+    // category: 'MDQ ไบโพลาร์',
     questionTh: 'เคยรู้สึกมั่นใจในตัวเองมากกว่าปกติมาก',
     questionEn: 'Felt much more self-confident than usual',
     options: _optYesNo,
@@ -754,7 +754,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'MDQ',
-    category: 'MDQ ไบโพลาร์',
+    // category: 'MDQ ไบโพลาร์',
     questionTh: 'เคยนอนน้อยกว่าปกติมาก แต่ไม่รู้สึกง่วง',
     questionEn: 'Got much less sleep than usual and did not really miss it',
     options: _optYesNo,
@@ -762,7 +762,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'MDQ',
-    category: 'MDQ ไบโพลาร์',
+    // category: 'MDQ ไบโพลาร์',
     questionTh: 'เคยพูดมากหรือพูดเร็วกว่าปกติมาก',
     questionEn: 'Were much more talkative or spoke faster than usual',
     options: _optYesNo,
@@ -770,7 +770,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'MDQ',
-    category: 'MDQ ไบโพลาร์',
+    // category: 'MDQ ไบโพลาร์',
     questionTh: 'เคยมีความคิดแล่นเร็วในหัวจนหยุดไม่ได้',
     questionEn: 'Thoughts raced through your head or you could not slow your mind down',
     options: _optYesNo,
@@ -778,7 +778,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'MDQ',
-    category: 'MDQ ไบโพลาร์',
+    // category: 'MDQ ไบโพลาร์',
     questionTh: 'เคยวอกแวกง่ายจนไม่มีสมาธิ',
     questionEn: 'Were so easily distracted that you could not concentrate',
     options: _optYesNo,
@@ -786,7 +786,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'MDQ',
-    category: 'MDQ ไบโพลาร์',
+    // category: 'MDQ ไบโพลาร์',
     questionTh: 'เคยมีพลังงานมากกว่าปกติมาก',
     questionEn: 'Had much more energy than usual',
     options: _optYesNo,
@@ -794,7 +794,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'MDQ',
-    category: 'MDQ ไบโพลาร์',
+    // category: 'MDQ ไบโพลาร์',
     questionTh: 'เคยทำกิจกรรมมากหรือกระตือรือร้นกว่าปกติมาก',
     questionEn: 'Were much more active or did many more things than usual',
     options: _optYesNo,
@@ -802,7 +802,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'MDQ',
-    category: 'MDQ ไบโพลาร์',
+    // category: 'MDQ ไบโพลาร์',
     questionTh: 'เคยเข้าสังคมหรือออกไปพบผู้คนมากกว่าปกติมาก',
     questionEn: 'Were much more social or outgoing than usual',
     options: _optYesNo,
@@ -810,7 +810,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'MDQ',
-    category: 'MDQ ไบโพลาร์',
+    // category: 'MDQ ไบโพลาร์',
     questionTh: 'เคยสนใจเรื่องเพศมากกว่าปกติมาก',
     questionEn: 'Were much more interested in sex than usual',
     options: _optYesNo,
@@ -818,7 +818,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'MDQ',
-    category: 'MDQ ไบโพลาร์',
+    // category: 'MDQ ไบโพลาร์',
     questionTh: 'เคยทำสิ่งที่ผิดปกติสำหรับคุณ หรือเกินเลย เสี่ยง หรือไม่สมเหตุผล',
     questionEn: 'Did things that were unusual for you or that were excessive, foolish, or risky',
     options: _optYesNo,
@@ -826,7 +826,7 @@ const List<Question> questions = [
   ),
   Question(
     instrument: 'MDQ',
-    category: 'MDQ ไบโพลาร์',
+    // category: 'MDQ ไบโพลาร์',
     questionTh: 'เคยใช้จ่ายเงินจนทำให้คุณหรือครอบครัวเดือดร้อน',
     questionEn: 'Spending money got you or your family into trouble',
     options: _optYesNo,

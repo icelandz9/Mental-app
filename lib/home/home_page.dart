@@ -114,7 +114,7 @@ class HomePage extends StatelessWidget {
                 // ===== หัวข้อหมวดประเมิน =====
                 _sectionHeader(
                   'แบบประเมินสุขภาพจิต',
-                  'เลือกด้านที่อยากทำความเข้าใจ',
+                  'ทำความเข้าใจสุขภาพทางจิตเบื้องต้น',
                   Colors.white,
                   const Color.fromARGB(255, 255, 255, 255),
                 ),
@@ -142,7 +142,7 @@ class HomePage extends StatelessWidget {
                 // ===== หัวข้อแนวทางฟื้นฟู =====
                 _sectionHeader(
                   'แนวทางการฟื้นฟู',
-                  'ดูแลใจและกายในแต่ละวัน',
+                  'แนวทางการดูแลสภาพจิตใจและกายเบื้องต้น',
                   AppColors.textPrimary,
                   AppColors.textSecondary,
                 ),
@@ -199,19 +199,7 @@ class HomePage extends StatelessWidget {
         ),
         const SizedBox(width: 14),
         const Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'สวัสดี 👋',
-                style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start),
         ),
         _circleIconButton(
           icon: Icons.person_rounded,
@@ -397,15 +385,6 @@ class HomePage extends StatelessWidget {
                           color: Colors.white,
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        'ทำความเข้าใจสุขภาพทางจิตเบื้องต้น',
-                        style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.9),
-                          fontSize: 13,
-                          height: 1.35,
                         ),
                       ),
                       const SizedBox(height: 14),

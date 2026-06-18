@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // เก็บความคืบหน้าในเครื่อง
 import '../data/questions_data.dart'; // นำเข้าข้อมูลคำถาม (questions)
 import '../models/question.dart';      // โมเดลคำถาม
 import '../theme/app_theme.dart';     // ระบบสีกลาง
@@ -16,6 +17,52 @@ class _QuestionScreenState extends State<QuestionScreen> {
   int _currentIndex = 0;
   final List<int> _answers = List.filled(questions.length, -1);
 
+  // ทิศทางสไลด์ของ animation (1 = ไปข้างหน้า, -1 = ย้อนกลับ)
+  int _dir = 1;
+
+  // ===== คีย์เก็บความคืบหน้าใน SharedPreferences =====
+  static const String _kAnswers = 'quiz_progress_answers';
+  static const String _kIndex = 'quiz_progress_index';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProgress();
+  }
+
+  // โหลดคำตอบ/ข้อที่ค้างไว้ (ถ้ามีและจำนวนข้อตรงกัน)
+  Future<void> _loadProgress() async {
+    final prefs = await SharedPreferences.getInstance();
+    final saved = prefs.getStringList(_kAnswers);
+    if (saved == null || saved.length != questions.length) return;
+
+    final idx = prefs.getInt(_kIndex) ?? 0;
+    if (!mounted) return;
+    setState(() {
+      for (int i = 0; i < saved.length; i++) {
+        _answers[i] = int.tryParse(saved[i]) ?? -1;
+      }
+      _currentIndex = (idx >= 0 && idx < questions.length) ? idx : 0;
+    });
+  }
+
+  // บันทึกความคืบหน้าปัจจุบัน
+  Future<void> _saveProgress() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(
+      _kAnswers,
+      _answers.map((e) => e.toString()).toList(),
+    );
+    await prefs.setInt(_kIndex, _currentIndex);
+  }
+
+  // ล้างความคืบหน้า (เรียกเมื่อทำแบบทดสอบเสร็จ)
+  Future<void> _clearProgress() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_kAnswers);
+    await prefs.remove(_kIndex);
+  }
+
   // ===== ฟังก์ชันเมื่อกดปุ่ม Next =====
   void _onNext() {
     if (_answers[_currentIndex] == -1) {
@@ -29,6 +76,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
       return;
     }
     if (_currentIndex == questions.length - 1) {
+      _clearProgress(); // ทำเสร็จแล้ว ล้างความคืบหน้า
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -37,12 +85,41 @@ class _QuestionScreenState extends State<QuestionScreen> {
       );
       return;
     }
-    setState(() => _currentIndex++);
+    setState(() {
+      _dir = 1;
+      _currentIndex++;
+    });
+    _saveProgress();
   }
 
   void _onBack() {
     if (_currentIndex == 0) return;
-    setState(() => _currentIndex--);
+    setState(() {
+      _dir = -1;
+      _currentIndex--;
+    });
+    _saveProgress();
+  }
+
+  // ===== เลือกคำตอบ → เลื่อนไปข้อถัดไปเอง =====
+  void _selectAnswer(int index) {
+    final int q = _currentIndex; // จำข้อปัจจุบันไว้
+    setState(() => _answers[q] = index);
+    _saveProgress(); // เก็บคำตอบทันที กันเผลอกดออก
+
+    // ข้อสุดท้ายไม่เลื่อนเอง ให้กดปุ่ม "ดูผลลัพธ์"
+    if (q == questions.length - 1) return;
+
+    // หน่วงเล็กน้อยให้เห็นสถานะที่เลือกก่อนเลื่อน
+    Future.delayed(const Duration(milliseconds: 250), () {
+      // ยกเลิกถ้าออกจากหน้าไปแล้ว หรือผู้ใช้เลื่อน/ย้อนข้อเอง
+      if (!mounted || _currentIndex != q) return;
+      setState(() {
+        _dir = 1;
+        _currentIndex++;
+      });
+      _saveProgress();
+    });
   }
 
   // ===== สีประจำหมวด (ดึงจากรหัสแบบทดสอบ คำแรกของ category) =====
@@ -69,10 +146,6 @@ class _QuestionScreenState extends State<QuestionScreen> {
     }
   }
 
-  // สีพื้นของแท็กหมวด (อ่อน)
-  Color _tagBgColor(String category) =>
-      _accentColor(category).withValues(alpha: 0.15);
-
   // ทำสีให้เข้มลงเล็กน้อย (สำหรับไล่เฉดปุ่ม)
   Color _darken(Color c, [double amount = 0.12]) =>
       Color.lerp(c, Colors.black, amount)!;
@@ -85,7 +158,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
     final double progress = currentNumber / total;
     final int percent = (progress * 100).round();
     final int selectedAnswer = _answers[_currentIndex];
-    final Color accent = _accentColor(question.category);
+    final Color accent = _accentColor(question.instrument);
     final bool isLast = _currentIndex == questions.length - 1;
     final bool answered = selectedAnswer != -1;
 
@@ -185,12 +258,17 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 // ===== เนื้อหา (การ์ด + ตัวเลือก) มี animation เปลี่ยนข้อ =====
                 Expanded(
                   child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 220),
-                    switchInCurve: Curves.easeOut,
-                    switchOutCurve: Curves.easeIn,
-                    // fade นุ่มๆ อย่างเดียว ไม่มีการเลื่อนด้านข้าง (กันลายตา)
-                    transitionBuilder: (child, anim) =>
-                        FadeTransition(opacity: anim, child: child),
+                    duration: const Duration(milliseconds: 280),
+                    transitionBuilder: (child, anim) {
+                      final offset = Tween<Offset>(
+                        begin: Offset(0.12 * _dir, 0),
+                        end: Offset.zero,
+                      ).animate(anim);
+                      return FadeTransition(
+                        opacity: anim,
+                        child: SlideTransition(position: offset, child: child),
+                      );
+                    },
                     child: SingleChildScrollView(
                       key: ValueKey(_currentIndex),
                       physics: const BouncingScrollPhysics(),
@@ -301,24 +379,6 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                  // แท็กหมวด
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: _tagBgColor(question.category),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      question.category,
-                      style: TextStyle(
-                        fontSize: 11.5,
-                        fontWeight: FontWeight.bold,
-                        color: _darken(accent, 0.1),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 14),
                   Text(
                     question.questionTh,
                     style: const TextStyle(
@@ -354,7 +414,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
       color: Colors.transparent,
       child: InkWell(
         borderRadius: BorderRadius.circular(14),
-        onTap: () => setState(() => _answers[_currentIndex] = index),
+        onTap: () => _selectAnswer(index),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 180),
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
