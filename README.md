@@ -80,8 +80,25 @@ flutter run -d emulator-5554   # Android emulator
 flutter run -d chrome          # เว็บ
 ```
 
-> 💡 **Emulator แรม:** แนะนำตั้ง RAM ของ AVD อย่างน้อย **4096 MB**
-> ไม่งั้นแอปอาจถูกระบบ Android ปิด (lowmemorykiller) ขณะเปิด Firebase
+---
+
+## 📱 สเปค Emulator ที่แนะนำ
+
+ตั้งค่าผ่าน Android Studio → **Device Manager** → Edit (ดินสอ)
+
+| รายการ | ค่าที่แนะนำ | เหตุผล |
+|--------|------------|--------|
+| **RAM** | **4096 MB** (อย่างน้อย 2048) | ถ้าน้อยเกินไป แอปจะถูกระบบ Android ปิด (lowmemorykiller) ขณะเปิด Firebase |
+| **VM heap** | **512 MB** | รองรับการทำงานของ Firebase/Flutter |
+| **Internal Storage** | 8 GB ขึ้นไป | พื้นที่ติดตั้งแอป |
+| **CPU cores** | 4 | ทำงานลื่นขึ้น |
+| **API Level** | 24 (Android 7.0) ขึ้นไป | ขั้นต่ำที่ Firebase รองรับ |
+| **อินเทอร์เน็ต** | **ต้องต่อเน็ตได้** | จำเป็นสำหรับ login / บันทึกข้อมูล Firebase |
+
+> ⚠️ **RAM ต้องตั้งหน่วยเป็น MB ไม่ใช่ GB** — ถ้าใส่ `4096 GB` emulator จะเปิดไม่ขึ้น (terminated)
+
+> 🌐 **ต้องต่ออินเทอร์เน็ต:** ถ้า emulator ต่อเน็ตไม่ได้ (DNS resolve ไม่ผ่าน) จะ **login ค้าง**
+> เพราะ Firebase เชื่อมเซิร์ฟเวอร์ไม่ได้ — แก้โดย **Cold Boot** emulator ใหม่
 
 ---
 
