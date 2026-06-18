@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:my_app/theme/app_theme.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -32,11 +33,13 @@ class _RegisterPageState extends State<RegisterPage> {
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
+      if (!mounted) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text("สมัครสมาชิกสำเร็จ")));
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(e.message ?? "เกิดข้อผิดพลาด")));
@@ -58,7 +61,8 @@ class _RegisterPageState extends State<RegisterPage> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xFF003BFF), Color(0xFFFFFFFF)],
+            stops: [0.0, 0.5],
+            colors: [AppColors.primary, AppColors.bg],
           ),
         ),
         width: double.infinity,
@@ -82,7 +86,7 @@ class _RegisterPageState extends State<RegisterPage> {
               // ใส่โลโก้
               Image.asset("assets/image/design.png", height: 160),
 
-              const SizedBox(height: 15),
+              const SizedBox(height: 60),
 
               TextField(
                 controller: _nameController,
@@ -93,41 +97,41 @@ class _RegisterPageState extends State<RegisterPage> {
                   fillColor: Colors.white,
                 ),
               ),
-              const SizedBox(height: 15),
-              TextField(
-                controller: _ageController,
-                keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(3),
-                ],
-                decoration: const InputDecoration(
-                  labelText: "อายุ",
-                  border: OutlineInputBorder(),
-                  filled: true,
-                  fillColor: Colors.white,
-                ),
-              ),
-              const SizedBox(height: 15),
-              DropdownButtonFormField<String>(
-                decoration: const InputDecoration(
-                  labelText: "เพศ",
-                  border: OutlineInputBorder(),
-                  filled: true,
-                  fillColor: Colors.white,
-                ),
-                value: selectedGender,
-                items: const [
-                  DropdownMenuItem(value: "ชาย", child: Text("ชาย")),
-                  DropdownMenuItem(value: "หญิง", child: Text("หญิง")),
-                  DropdownMenuItem(value: "อื่น ๆ", child: Text("อื่น ๆ")),
-                ],
-                onChanged: (value) {
-                  setState(() {
-                    selectedGender = value;
-                  });
-                },
-              ),
+              // const SizedBox(height: 10),
+              // TextField(
+              //   controller: _ageController,
+              //   keyboardType: TextInputType.number,
+              //   inputFormatters: [
+              //     FilteringTextInputFormatter.digitsOnly,
+              //     LengthLimitingTextInputFormatter(3),
+              //   ],
+              //   decoration: const InputDecoration(
+              //     labelText: "อายุ",
+              //     border: OutlineInputBorder(),
+              //     filled: true,
+              //     fillColor: Colors.white,
+              //   ),
+              // ),
+              // const SizedBox(height: 15),
+              // DropdownButtonFormField<String>(
+              //   decoration: const InputDecoration(
+              //     labelText: "เพศ",
+              //     border: OutlineInputBorder(),
+              //     filled: true,
+              //     fillColor: Colors.white,
+              //   ),
+              //   initialValue: selectedGender,
+              //   items: const [
+              //     DropdownMenuItem(value: "ชาย", child: Text("ชาย")),
+              //     DropdownMenuItem(value: "หญิง", child: Text("หญิง")),
+              //     DropdownMenuItem(value: "อื่น ๆ", child: Text("อื่น ๆ")),
+              //   ],
+              //   onChanged: (value) {
+              //     setState(() {
+              //       selectedGender = value;
+              //     });
+              //   },
+              // ),
               const SizedBox(height: 15),
               TextField(
                 controller: _emailController,
@@ -189,15 +193,21 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: ElevatedButton(
                   onPressed: register,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFC8C3FF),
-                    foregroundColor: Colors.black,
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: Colors.white,
+                    elevation: 2,
+                    shadowColor: AppColors.primary.withValues(alpha: 0.4),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
                   child: const Text(
                     "สมัครสมาชิก",
-                    style: TextStyle(fontSize: 18, color: Colors.black),
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),

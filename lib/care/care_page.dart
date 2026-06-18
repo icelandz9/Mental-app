@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 
 // ข้อมูลคำแนะนำ 1 ข้อ
 class CareTip {
@@ -46,7 +47,7 @@ class CarePage extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [color, const Color(0xFFF6F7FB)],
+            colors: [color, AppColors.bg],
             stops: const [0.0, 0.45],
           ),
         ),

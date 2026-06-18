@@ -10,7 +10,7 @@ class FoodPage extends StatelessWidget {
       title: "อาหาร",
       subtitle: "สิ่งที่เรากินส่งผลต่ออารมณ์และพลังงาน\nเลือกกินให้ดีเพื่อใจที่ดีขึ้น",
       icon: Icons.restaurant,
-      color: Color(0xFF26A69A),
+      color: Color(0xFF4FB7A0),
       tips: [
         CareTip(
           icon: Icons.eco,

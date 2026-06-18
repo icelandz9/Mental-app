@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cream text-ink font-sans antialiased;
+  }
+
+  /* การเลือกข้อความ (text selection) */
+  ::selection {
+    background-color: #7a9b8e;
+    color: #ffffff;
+  }
+}
+
+/* ===== เคารพ prefers-reduced-motion =====
+   ปิดแอนิเมชันวงกลมหายใจ / ก้อนลอย เมื่อผู้ใช้ตั้งค่าลดการเคลื่อนไหว */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

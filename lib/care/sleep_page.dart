@@ -10,7 +10,7 @@ class SleepPage extends StatelessWidget {
       title: "การนอนหลับ",
       subtitle: "การนอนที่ดีช่วยฟื้นฟูสมองและอารมณ์\nลองปรับพฤติกรรมเหล่านี้ดู",
       icon: Icons.bedtime,
-      color: Color(0xFF5C6BC0),
+      color: Color(0xFF6B6FD6),
       tips: [
         CareTip(
           icon: Icons.schedule,

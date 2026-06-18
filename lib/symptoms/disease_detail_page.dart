@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 
 final Map<String, Map<String, String>> diseaseData = {
   "PHQ-9": {
@@ -109,7 +110,7 @@ class DiseaseDetailPage extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xFF2C5BFF), Color(0xFFF6F7FB)],
+            colors: [AppColors.primary, AppColors.bg],
             stops: [0.0, 0.45],
           ),
         ),
@@ -127,7 +128,7 @@ class DiseaseDetailPage extends StatelessWidget {
                   title: "อาการ",
                   content: data["อาการ"]!,
                   icon: Icons.monitor_heart_outlined,
-                  color: const Color(0xFF3B6EFF),
+                  color: AppColors.primary,
                 ),
                 const SizedBox(height: 16),
                 _infoCard(
@@ -135,7 +136,7 @@ class DiseaseDetailPage extends StatelessWidget {
                   title: "สาเหตุ",
                   content: data["สาเหตุ"]!,
                   icon: Icons.search_rounded,
-                  color: const Color(0xFFFF9F43),
+                  color: AppColors.peach,
                 ),
                 const SizedBox(height: 16),
                 _infoCard(
@@ -143,7 +144,7 @@ class DiseaseDetailPage extends StatelessWidget {
                   title: "การรักษา",
                   content: data["การรักษา"]!,
                   icon: Icons.healing_outlined,
-                  color: const Color(0xFF21C7A8),
+                  color: AppColors.accent,
                 ),
               ],
             ),

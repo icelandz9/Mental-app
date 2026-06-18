@@ -11,7 +11,7 @@ class ExercisePage extends StatelessWidget {
       subtitle:
           "การขยับร่างกายช่วยหลั่งสารแห่งความสุข\nลดเครียดและทำให้หลับดีขึ้น",
       icon: Icons.fitness_center,
-      color: Color(0xFFFF8A65),
+      color: Color(0xFFF1976B),
       tips: [
         CareTip(
           icon: Icons.directions_run,

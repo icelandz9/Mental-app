@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import '../data/questions_data.dart'; // นำเข้าข้อมูลคำถาม (questions)
+import '../models/question.dart';      // โมเดลคำถาม
+import '../theme/app_theme.dart';     // ระบบสีกลาง
 import 'result_screen.dart';          // นำเข้าหน้าผลลัพธ์ เพื่อไปแสดงเมื่อตอบครบ
 
-// หน้าจอคำถาม - ใช้ StatefulWidget เพราะมีสถานะที่เปลี่ยนได้
-// (ข้อปัจจุบัน, คำตอบที่เลือก) ซึ่งต้อง rebuild หน้าจอเมื่อมีการเปลี่ยน
+// หน้าจอคำถาม - StatefulWidget เพราะมีสถานะที่เปลี่ยนได้ (ข้อปัจจุบัน / คำตอบ)
 class QuestionScreen extends StatefulWidget {
   const QuestionScreen({super.key});
 
@@ -12,359 +13,468 @@ class QuestionScreen extends StatefulWidget {
 }
 
 class _QuestionScreenState extends State<QuestionScreen> {
-  // index ของคำถามที่กำลังแสดง (เริ่มที่ข้อแรก = 0)
   int _currentIndex = 0;
-
-  // เก็บคำตอบของทุกข้อ; เริ่มต้นทุกข้อเป็น -1 (ยังไม่ได้ตอบ)
   final List<int> _answers = List.filled(questions.length, -1);
 
-  // ===== สีที่ใช้ในหน้านี้ =====
-  static const Color _purple = Color(0xFF6B5B95); // แถบ progress
-  static const Color _cardBg = Color(0xFFFAF7F2); // พื้นการ์ดคำถาม
-  static const Color _brown = Color(0xFF5A3E2B);  // ปุ่ม Next / ตัวเลือกที่เลือก
+  // ทิศทางสไลด์ของ animation (1 = ไปข้างหน้า, -1 = ย้อนกลับ)
+  int _dir = 1;
 
   // ===== ฟังก์ชันเมื่อกดปุ่ม Next =====
   void _onNext() {
-    // ถ้ายังไม่ได้ตอบข้อนี้ → แสดงข้อความเตือนแล้วหยุด (ไม่ไปข้อถัดไป)
     if (_answers[_currentIndex] == -1) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('กรุณาเลือกคำตอบก่อนไปข้อถัดไป'),
           duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
         ),
       );
       return;
     }
-    // ถ้าเป็นข้อสุดท้ายแล้ว → ไปหน้าผลลัพธ์ (ส่งสำเนาคำตอบไปด้วย)
     if (_currentIndex == questions.length - 1) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          // List.from() สร้างสำเนาใหม่ ป้องกันการแก้ไขย้อนกลับมากระทบ
           builder: (_) => ResultScreen(answers: List.from(_answers)),
         ),
       );
       return;
     }
-    // กรณีปกติ → เลื่อนไปข้อถัดไป แล้ว rebuild หน้าจอ
-    setState(() => _currentIndex++);
+    setState(() {
+      _dir = 1;
+      _currentIndex++;
+    });
   }
 
-  // ===== ฟังก์ชันเมื่อกดปุ่ม Back =====
   void _onBack() {
-    if (_currentIndex == 0) return;      // ถ้าอยู่ข้อแรกแล้ว ไม่ทำอะไร
-    setState(() => _currentIndex--);     // ถอยกลับไปข้อก่อนหน้า
+    if (_currentIndex == 0) return;
+    setState(() {
+      _dir = -1;
+      _currentIndex--;
+    });
   }
 
-  // ===== กำหนดสีพื้นของแท็กหมวดหมู่ ตามชื่อหมวด =====
-  // แต่ละหมวดมีสีเฉพาะตัว เพื่อให้แยกแยะได้ง่าย
-  Color _tagBgColor(String category) {
-    switch (category) {
-      case 'Anxiety Screening':
-        return const Color(0xFFB8D4F0);
-      case 'Stress Assessment':
-        return const Color(0xFFD4F0B8);
-      case 'Sleep Quality':
-        return const Color(0xFFE8D4F0);
-      case 'Social Functioning':
-        return const Color(0xFFF0D4E8);
-      case 'Overall Well-being':
-        return const Color(0xFFD4E8F0);
-      default: // หมวดอื่น (เช่น Depression Screening) ใช้สีส้มอ่อน
-        return const Color(0xFFF4C99A);
-    }
-  }
+  // ===== สีประจำหมวด (ดึงจากรหัสแบบทดสอบ คำแรกของ category) =====
+  String _instrumentOf(String category) => category.split(' ').first;
 
-  // ===== กำหนดสีตัวอักษรของแท็ก ให้เข้ากับสีพื้นข้างบน =====
-  Color _tagTextColor(String category) {
-    switch (category) {
-      case 'Anxiety Screening':
-        return const Color(0xFF2B5A8A);
-      case 'Stress Assessment':
-        return const Color(0xFF3A6B2B);
-      case 'Sleep Quality':
-        return const Color(0xFF5A2B8A);
-      case 'Social Functioning':
-        return const Color(0xFF8A2B5A);
-      case 'Overall Well-being':
-        return const Color(0xFF2B6B6B);
+  // สีเน้น (accent) แบบเข้ม ใช้กับ progress / ตัวเลือกที่เลือก / ปุ่ม
+  Color _accentColor(String category) {
+    switch (_instrumentOf(category)) {
+      case 'PHQ-9':
+        return const Color(0xFFE8883A); // ส้ม
+      case 'GAD-7':
+        return const Color(0xFF4A90D9); // ฟ้า
+      case 'PSS-10':
+        return const Color(0xFF53B98A); // เขียว
+      case 'ASRS':
+        return const Color(0xFF9B7EDE); // ม่วง
+      case 'OCI-R':
+        return const Color(0xFF3DAE97); // มินต์
+      case 'PCL-5':
+        return const Color(0xFF4FA8C0); // ฟ้าอมเขียว
+      case 'MDQ':
       default:
-        return const Color(0xFF8A5A2B);
+        return const Color(0xFFE0A53C); // เหลืองทอง
     }
   }
+
+  // สีพื้นของแท็กหมวด (อ่อน)
+  Color _tagBgColor(String category) =>
+      _accentColor(category).withValues(alpha: 0.15);
+
+  // ทำสีให้เข้มลงเล็กน้อย (สำหรับไล่เฉดปุ่ม)
+  Color _darken(Color c, [double amount = 0.12]) =>
+      Color.lerp(c, Colors.black, amount)!;
 
   @override
   Widget build(BuildContext context) {
-    // ===== เตรียมข้อมูลของข้อปัจจุบัน =====
-    final question = questions[_currentIndex];          // object คำถามข้อนี้
-    final int currentNumber = _currentIndex + 1;        // เลขข้อ (เริ่มนับจาก 1)
-    final int total = questions.length;                 // จำนวนข้อทั้งหมด
-    final double progress = currentNumber / total;      // สัดส่วนความคืบหน้า 0.0-1.0
-    final int percent = (progress * 100).round();       // เปอร์เซ็นต์ (ปัดเศษ)
-    final int selectedAnswer = _answers[_currentIndex]; // คำตอบที่เลือกของข้อนี้
+    final question = questions[_currentIndex];
+    final int currentNumber = _currentIndex + 1;
+    final int total = questions.length;
+    final double progress = currentNumber / total;
+    final int percent = (progress * 100).round();
+    final int selectedAnswer = _answers[_currentIndex];
+    final Color accent = _accentColor(question.category);
+    final bool isLast = _currentIndex == questions.length - 1;
+    final bool answered = selectedAnswer != -1;
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea( // กันเนื้อหาทับ notch / status bar
-        child: Column(
-          children: [
-            // ----- เนื้อหาทั้งหมด เต็มหน้าจอ (ไม่มีขอบข้าง/แถบหัว) -----
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // ===== แถวหัว: ปุ่มปิด/ย้อนกลับ + โลโก้ =====
-                      Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () => Navigator.pop(context), // แตะที่ไอคอนเพื่อย้อนกลับ
-                            child: Icon(
-                              Icons.close,
-                              size: 24,
-                              // ถ้าอยู่ข้อแรก ทำให้ไอคอนจางลง (กดไม่ได้ผล)
-                              color: _currentIndex == 0
-                                  ? Colors.black26
-                                  : Colors.black87,
-                            ),
-                          ),
-                          const SizedBox(width: 24),
-                          const Expanded(
-                            child: Text(
-                              'MentalCheck',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 48), // เว้นช่องให้ชื่ออยู่กึ่งกลาง
-                        ],
-                      ),
-                      const SizedBox(height: 24),
-
-                      // ===== แถวเลขข้อ + เปอร์เซ็นต์ =====
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Question $currentNumber of $total',
-                            style: const TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black54,
-                            ),
-                          ),
-                          Text(
-                            '$percent%',
-                            style: const TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                              color: _purple,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-
-                      // ===== แถบความคืบหน้า =====
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: LinearProgressIndicator(
-                          value: progress, // อัปเดตตามข้อปัจจุบัน
-                          minHeight: 6,
-                          backgroundColor: const Color(0xFFE8E8E8),
-                          valueColor:
-                              const AlwaysStoppedAnimation(_purple),
+      backgroundColor: Colors.transparent,
+      body: Container(
+        // ===== พื้นหลัง gradient อ่อน โทนสีประจำหมวด =====
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: const [0.0, 0.4],
+            colors: [
+              Color.lerp(accent, Colors.white, 0.88)!,
+              Colors.white,
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 16, 20, 18),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // ===== หัว: ปุ่มปิด + ชื่อ =====
+                Row(
+                  children: [
+                    _circleBtn(
+                      icon: Icons.close_rounded,
+                      onTap: () => Navigator.pop(context),
+                    ),
+                    const Expanded(
+                      child: Text(
+                        'MentalCheck',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textPrimary,
                         ),
                       ),
-                      const SizedBox(height: 24),
+                    ),
+                    const SizedBox(width: 42),
+                  ],
+                ),
+                const SizedBox(height: 22),
 
-                      // ===== การ์ดคำถาม =====
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(18),
-                        decoration: BoxDecoration(
-                          color: _cardBg,
-                          borderRadius: BorderRadius.circular(12),
-                          border:
-                              Border.all(color: const Color(0xFFEDE6DD)),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // แท็กหมวดหมู่ (สีเปลี่ยนตามหมวด)
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 6),
-                              decoration: BoxDecoration(
-                                color: _tagBgColor(question.category),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                question.category,
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold,
-                                  color: _tagTextColor(question.category),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 14),
-
-                            // คำถามภาษาไทย
-                            Text(
-                              question.questionTh,
-                              style: const TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                                height: 1.4,
-                                color: Colors.black87,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-
-                            // คำถามภาษาอังกฤษ (สีเทา)
-                            Text(
-                              question.questionEn,
-                              style: const TextStyle(
-                                fontSize: 13,
-                                height: 1.4,
-                                color: Colors.black54,
-                              ),
-                            ),
-                          ],
+                // ===== เลขข้อ + เปอร์เซ็นต์ (pill) =====
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'ข้อ $currentNumber จาก $total',
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: accent.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        '$percent%',
+                        style: TextStyle(
+                          fontSize: 12.5,
+                          fontWeight: FontWeight.bold,
+                          color: _darken(accent, 0.05),
                         ),
                       ),
-                      const SizedBox(height: 24),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
 
-                      // ===== รายการตัวเลือกคำตอบ =====
-                      // Expanded + ListView ทำให้เลื่อนได้ถ้าตัวเลือกยาว
-                      Expanded(
-                        child: ListView.separated(
-                          padding: EdgeInsets.zero,
-                          itemCount: question.options.length,
-                          separatorBuilder: (_, __) =>
-                              const SizedBox(height: 12), // ระยะห่างระหว่างตัวเลือก
-                          itemBuilder: (context, index) {
-                            // สร้างตัวเลือก พร้อมบอกว่าตัวนี้ถูกเลือกอยู่หรือไม่
-                            return _buildOption(index, selectedAnswer == index);
-                          },
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-
-                      // ===== ปุ่ม Back / Next =====
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // ปุ่ม Back - ปิดใช้งาน (null) เมื่ออยู่ข้อแรก
-                          OutlinedButton(
-                            onPressed: _currentIndex == 0 ? null : _onBack,
-                            style: OutlinedButton.styleFrom(
-                              foregroundColor: Colors.black87,
-                              backgroundColor: _currentIndex == 0
-                                  ? const Color(0xFFF5F5F5)  // สีจางเมื่อปิดใช้งาน
-                                  : const Color(0xFFEDEAE4),
-                              side: BorderSide.none,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 28, vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ),
-                            child: const Text('Back'),
-                          ),
-                          // ปุ่ม Next / ดูผลลัพธ์
-                          ElevatedButton(
-                            onPressed: _onNext,
-                            style: ElevatedButton.styleFrom(
-                              // สีเทาถ้ายังไม่ตอบ, สีน้ำตาลถ้าตอบแล้ว
-                              backgroundColor: _answers[_currentIndex] == -1
-                                  ? Colors.grey.shade400
-                                  : _brown,
-                              foregroundColor: Colors.white,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 28, vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                // เปลี่ยนข้อความเป็น "ดูผลลัพธ์" เมื่อถึงข้อสุดท้าย
-                                Text(_currentIndex == questions.length - 1
-                                    ? 'ดูผลลัพธ์'
-                                    : 'Next'),
-                                const SizedBox(width: 6),
-                                const Icon(Icons.arrow_forward, size: 18),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                // ===== แถบความคืบหน้า (สีตามหมวด) =====
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: TweenAnimationBuilder<double>(
+                    tween: Tween(begin: 0, end: progress),
+                    duration: const Duration(milliseconds: 350),
+                    curve: Curves.easeOut,
+                    builder: (_, value, _) => LinearProgressIndicator(
+                      value: value,
+                      minHeight: 8,
+                      backgroundColor: const Color(0xFFECECF2),
+                      valueColor: AlwaysStoppedAnimation(accent),
+                    ),
                   ),
+                ),
+                const SizedBox(height: 22),
+
+                // ===== เนื้อหา (การ์ด + ตัวเลือก) มี animation เปลี่ยนข้อ =====
+                Expanded(
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 280),
+                    transitionBuilder: (child, anim) {
+                      final offset = Tween<Offset>(
+                        begin: Offset(0.12 * _dir, 0),
+                        end: Offset.zero,
+                      ).animate(anim);
+                      return FadeTransition(
+                        opacity: anim,
+                        child: SlideTransition(position: offset, child: child),
+                      );
+                    },
+                    child: SingleChildScrollView(
+                      key: ValueKey(_currentIndex),
+                      physics: const BouncingScrollPhysics(),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _questionCard(question, accent),
+                          const SizedBox(height: 20),
+                          ...List.generate(
+                            question.options.length,
+                            (i) => Padding(
+                              padding: const EdgeInsets.only(bottom: 12),
+                              child: _buildOption(
+                                i,
+                                selectedAnswer == i,
+                                accent,
+                                question.options[i],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+
+                // ===== ปุ่ม Back / Next =====
+                Row(
+                  children: [
+                    OutlinedButton(
+                      onPressed: _currentIndex == 0 ? null : _onBack,
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: AppColors.textPrimary,
+                        backgroundColor: const Color(0xFFF1F1F6),
+                        side: BorderSide.none,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 26, vertical: 15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      child: const Text('ย้อนกลับ'),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(child: _nextButton(accent, answered, isLast)),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ===== ปุ่มวงกลม (ปิด) =====
+  Widget _circleBtn({required IconData icon, required VoidCallback onTap}) {
+    return Material(
+      color: Colors.white,
+      shape: const CircleBorder(),
+      elevation: 1,
+      shadowColor: Colors.black12,
+      child: InkWell(
+        customBorder: const CircleBorder(),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Icon(icon, size: 22, color: AppColors.textPrimary),
+        ),
+      ),
+    );
+  }
+
+  // ===== การ์ดคำถาม (มีแถบสีหมวดด้านซ้าย) =====
+  Widget _questionCard(Question question, Color accent) {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        boxShadow: [
+          BoxShadow(
+            color: accent.withValues(alpha: 0.12),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // แถบสีหมวดด้านซ้าย
+            Container(
+              width: 5,
+              decoration: BoxDecoration(
+                color: accent,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(18),
+                  bottomLeft: Radius.circular(18),
                 ),
               ),
             ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(18),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                  // แท็กหมวด
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: _tagBgColor(question.category),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      question.category,
+                      style: TextStyle(
+                        fontSize: 11.5,
+                        fontWeight: FontWeight.bold,
+                        color: _darken(accent, 0.1),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  Text(
+                    question.questionTh,
+                    style: const TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      height: 1.4,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    question.questionEn,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      height: 1.4,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
           ],
         ),
       ),
     );
   }
 
-  // ===== Widget สร้างตัวเลือกคำตอบแต่ละอัน =====
-  Widget _buildOption(int index, bool isSelected) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(12),
-      // เมื่อแตะ → บันทึกคำตอบของข้อปัจจุบันเป็น index นี้ แล้ว rebuild
-      onTap: () => setState(() => _answers[_currentIndex] = index),
-      child: Container(
-        padding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        decoration: BoxDecoration(
-          // เปลี่ยนสีพื้น/ขอบเมื่อถูกเลือก
-          color: isSelected ? const Color(0xFFFAF5EF) : Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: isSelected ? _brown : const Color(0xFFE5E0D8),
-            width: isSelected ? 1.5 : 1,
+  // ===== ตัวเลือกคำตอบ (ตัวอักษร A–D + เช็คตอนเลือก) =====
+  Widget _buildOption(int index, bool isSelected, Color accent, String label) {
+    final String letter = String.fromCharCode(65 + index); // A, B, C, ...
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(14),
+        onTap: () => setState(() => _answers[_currentIndex] = index),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+          decoration: BoxDecoration(
+            color: isSelected ? accent.withValues(alpha: 0.10) : Colors.white,
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(
+              color: isSelected ? accent : AppColors.border,
+              width: isSelected ? 1.6 : 1,
+            ),
+            boxShadow: isSelected
+                ? [
+                    BoxShadow(
+                      color: accent.withValues(alpha: 0.18),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ]
+                : null,
+          ),
+          child: Row(
+            children: [
+              // ป้ายตัวอักษร
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 180),
+                width: 30,
+                height: 30,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: isSelected ? accent : const Color(0xFFF1F1F6),
+                  borderRadius: BorderRadius.circular(9),
+                ),
+                child: Text(
+                  letter,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: isSelected ? Colors.white : AppColors.textSecondary,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 15,
+                    height: 1.3,
+                    color: AppColors.textPrimary,
+                    fontWeight:
+                        isSelected ? FontWeight.w600 : FontWeight.normal,
+                  ),
+                ),
+              ),
+              // ไอคอนเช็คเมื่อเลือก
+              if (isSelected)
+                Icon(Icons.check_circle_rounded, color: accent, size: 22),
+            ],
           ),
         ),
+      ),
+    );
+  }
+
+  // ===== ปุ่ม Next / ดูผลลัพธ์ (ไล่เฉดสีหมวด) =====
+  Widget _nextButton(Color accent, bool answered, bool isLast) {
+    final List<Color> grad = answered
+        ? [accent, _darken(accent, 0.18)]
+        : [const Color(0xFFCBCBD4), const Color(0xFFBDBDC8)];
+
+    return GestureDetector(
+      onTap: _onNext,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        height: 52,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(colors: grad),
+          borderRadius: BorderRadius.circular(30),
+          boxShadow: answered
+              ? [
+                  BoxShadow(
+                    color: accent.withValues(alpha: 0.35),
+                    blurRadius: 14,
+                    offset: const Offset(0, 6),
+                  ),
+                ]
+              : null,
+        ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // วงกลม radio button
-            Container(
-              width: 20,
-              height: 20,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: isSelected ? _brown : const Color(0xFFCFC8BD),
-                  width: 2,
-                ),
-                color: isSelected ? _brown : Colors.transparent,
+            Text(
+              isLast ? 'ดูผลลัพธ์' : 'ถัดไป',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
               ),
-              // จุดสีขาวตรงกลางเมื่อถูกเลือก
-              child: isSelected
-                  ? const Icon(Icons.circle, size: 8, color: Colors.white)
-                  : null,
             ),
-            const SizedBox(width: 14),
-            // ข้อความตัวเลือก (Expanded กันข้อความล้นจอ)
-            Expanded(
-              child: Text(
-                questions[_currentIndex].options[index],
-                style: const TextStyle(fontSize: 15, color: Colors.black87),
-              ),
+            const SizedBox(width: 6),
+            Icon(
+              isLast
+                  ? Icons.assignment_turned_in_rounded
+                  : Icons.arrow_forward_rounded,
+              color: Colors.white,
+              size: 19,
             ),
           ],
         ),

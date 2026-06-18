@@ -10,7 +10,7 @@ class RelaxPage extends StatelessWidget {
       title: "ผ่อนคลาย",
       subtitle: "ให้เวลากับการพักใจในแต่ละวัน\nช่วยลดความเครียดสะสมได้มาก",
       icon: Icons.spa,
-      color: Color(0xFFBA68C8),
+      color: Color(0xFF9B7EDE),
       tips: [
         CareTip(
           icon: Icons.air,

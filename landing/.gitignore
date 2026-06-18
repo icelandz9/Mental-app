@@ -1,0 +1,12 @@
+node_modules
+dist
+dist-ssr
+*.local
+.vite
+node_modules/.tmp
+
+# editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store

@@ -2,14 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../data/questions_data.dart';
+import '../theme/app_theme.dart';
 import 'question_screen.dart';
 
-// ===== สีระดับความรุนแรง =====
-const Color _cGreen = Color(0xFF2E7D32);
-const Color _cLime = Color(0xFF7CB342);
-const Color _cOrange = Color(0xFFF57F17);
-const Color _cDeepOrange = Color(0xFFE65100);
-const Color _cRed = Color(0xFFB71C1C);
+// ===== สีระดับความรุนแรง (อิงจากระบบสีกลาง) =====
+const Color _cGreen = AppColors.green;
+const Color _cLime = AppColors.lime;
+const Color _cOrange = AppColors.orange;
+const Color _cDeepOrange = AppColors.deepOrange;
+const Color _cRed = AppColors.red;
 
 // ===== ผลคะแนนของแบบทดสอบ 1 ชุด =====
 class _ScoreResult {

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../theme/app_theme.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -11,7 +12,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  static const Color _primary = Color(0xFF5C6BC0);
+  static const Color _primary = AppColors.primary;
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
@@ -67,9 +68,9 @@ class _ProfilePageState extends State<ProfilePage> {
         'phone': phoneController.text,
       }, SetOptions(merge: true));
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('บันทึกข้อมูลสำเร็จ')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('บันทึกข้อมูลสำเร็จ')));
     } catch (e) {
       debugPrint("Save Profile Error: $e");
     }
@@ -127,8 +128,7 @@ class _ProfilePageState extends State<ProfilePage> {
       filled: true,
       fillColor: Colors.white,
       suffixIcon: suffix,
-      contentPadding:
-          const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
         borderSide: BorderSide.none,
@@ -253,9 +253,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     controller: dateController,
                     readOnly: true,
                     onTap: pickBirthday,
-                    decoration: _dec(
-                      suffix: const Icon(Icons.calendar_today),
-                    ),
+                    decoration: _dec(suffix: const Icon(Icons.calendar_today)),
                   ),
                 ),
 
@@ -278,7 +276,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: ElevatedButton(
                     onPressed: saveProfile,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF0A6144),
+                      backgroundColor: const Color.fromARGB(255, 26, 104, 87),
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       shape: RoundedRectangleBorder(
@@ -287,7 +285,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     child: const Text(
                       "บันทึก",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -336,9 +337,7 @@ class _ProfilePageState extends State<ProfilePage> {
           Row(
             children: [
               Icon(
-                flagged == 0
-                    ? Icons.check_circle
-                    : Icons.warning_amber_rounded,
+                flagged == 0 ? Icons.check_circle : Icons.warning_amber_rounded,
                 color: flagged == 0
                     ? const Color(0xFF2E7D32)
                     : const Color(0xFFE65100),
