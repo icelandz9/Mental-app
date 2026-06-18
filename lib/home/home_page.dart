@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../โรค/depression_page.dart';
-import '../โรค/anxiety_page.dart';
-import '../โรค/aq_page.dart';
-import '../แบบทดสอบ/quiz_page.dart';
-import '../ดูแล/sleep_page.dart';
-import '../ดูแล/food_page.dart';
-import '../ดูแล/exercise_page.dart';
-import '../ดูแล/relax_page.dart';
-import '../ประวัติส่วนตัว/profile_page.dart';
+import '../diseases/depression_page.dart';
+import '../diseases/anxiety_page.dart';
+import '../diseases/aq_page.dart';
+import '../quiz/quiz_page.dart';
+import '../care/sleep_page.dart';
+import '../care/food_page.dart';
+import '../care/exercise_page.dart';
+import '../care/relax_page.dart';
+import '../profile/profile_page.dart';
 import '../login/register/login_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -237,13 +237,15 @@ class HomePage extends StatelessWidget {
 
   // ===== การ์ดสภาวะ =====
   Widget _symptomCard(BuildContext context, String title, Widget page) {
+    // ความกว้างปรับตามจอ (4 การ์ดต่อแถว) กันล้นขอบ
+    final cardWidth = (MediaQuery.of(context).size.width - 32) / 4 - 6;
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (_) => page));
       },
       child: Container(
-        width: 80,
-        height: 90,
+        width: cardWidth,
+        height: 105,
         decoration: BoxDecoration(
           color: Colors.white.withValues(alpha: 0.6),
           borderRadius: BorderRadius.circular(16),
@@ -261,7 +263,7 @@ class HomePage extends StatelessWidget {
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 13,
-              color: Colors.black87,
+              color: Colors.black,
               fontWeight: FontWeight.w500,
             ),
           ),

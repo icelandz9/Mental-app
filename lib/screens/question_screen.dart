@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../data/questions_data.dart'; // นำเข้าข้อมูลคำถาม (questions) และตัวเลือก (answerOptions)
+import '../data/questions_data.dart'; // นำเข้าข้อมูลคำถาม (questions)
 import 'result_screen.dart';          // นำเข้าหน้าผลลัพธ์ เพื่อไปแสดงเมื่อตอบครบ
 
 // หน้าจอคำถาม - ใช้ StatefulWidget เพราะมีสถานะที่เปลี่ยนได้
@@ -15,8 +15,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
   // index ของคำถามที่กำลังแสดง (เริ่มที่ข้อแรก = 0)
   int _currentIndex = 0;
 
-  // เก็บคำตอบของทั้ง 80 ข้อ; เริ่มต้นทุกข้อเป็น -1 (ยังไม่ได้ตอบ)
-  final List<int> _answers = List.filled(80, -1);
+  // เก็บคำตอบของทุกข้อ; เริ่มต้นทุกข้อเป็น -1 (ยังไม่ได้ตอบ)
+  final List<int> _answers = List.filled(questions.length, -1);
 
   // ===== สีที่ใช้ในหน้านี้ =====
   static const Color _purple = Color(0xFF6B5B95); // แถบ progress
@@ -104,27 +104,15 @@ class _QuestionScreenState extends State<QuestionScreen> {
     final int selectedAnswer = _answers[_currentIndex]; // คำตอบที่เลือกของข้อนี้
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea( // กันเนื้อหาทับ notch / status bar
         child: Column(
           children: [
-            // ----- หัวข้อด้านบนสุด (นอกการ์ดขาว) -----
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8),
-              child: Text(
-                'หน้าทำแบบทดสอบ',
-                style: TextStyle(color: Colors.white70, fontSize: 13),
-              ),
-            ),
-
-            // ----- การ์ดสีขาวครอบเนื้อหาทั้งหมด -----
+            // ----- เนื้อหาทั้งหมด เต็มหน้าจอ (ไม่มีขอบข้าง/แถบหัว) -----
             Expanded(
               child: Container(
                 width: double.infinity,
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-                ),
+                color: Colors.white,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
                   child: Column(
@@ -261,7 +249,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                       Expanded(
                         child: ListView.separated(
                           padding: EdgeInsets.zero,
-                          itemCount: answerOptions.length,
+                          itemCount: question.options.length,
                           separatorBuilder: (_, __) =>
                               const SizedBox(height: 12), // ระยะห่างระหว่างตัวเลือก
                           itemBuilder: (context, index) {
@@ -374,7 +362,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
             // ข้อความตัวเลือก (Expanded กันข้อความล้นจอ)
             Expanded(
               child: Text(
-                answerOptions[index],
+                questions[_currentIndex].options[index],
                 style: const TextStyle(fontSize: 15, color: Colors.black87),
               ),
             ),

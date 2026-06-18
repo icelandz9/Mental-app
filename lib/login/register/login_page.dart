@@ -13,6 +13,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool _obscurePassword = true;
 
   Future<void> login() async {
     try {
@@ -23,25 +24,19 @@ class _LoginPageState extends State<LoginPage> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (context) => const HomePage(),
-        ),
+        MaterialPageRoute(builder: (context) => const HomePage()),
       );
     } on FirebaseAuthException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e.message ?? "เกิดข้อผิดพลาด"),
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.message ?? "เกิดข้อผิดพลาด")));
     }
   }
 
   void goToRegister() {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => const RegisterPage(),
-      ),
+      MaterialPageRoute(builder: (context) => const RegisterPage()),
     );
   }
 
@@ -50,6 +45,7 @@ class _LoginPageState extends State<LoginPage> {
     required String hint,
     required IconData icon,
     bool obscure = false,
+    bool isPassword = false,
   }) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
@@ -62,6 +58,18 @@ class _LoginPageState extends State<LoginPage> {
           filled: true,
           fillColor: Colors.white,
           contentPadding: const EdgeInsets.symmetric(vertical: 18),
+          suffixIcon: isPassword
+              ? IconButton(
+                  icon: Icon(
+                    _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _obscurePassword = !_obscurePassword;
+                    });
+                  },
+                )
+              : null,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
             borderSide: BorderSide.none,
@@ -80,13 +88,10 @@ class _LoginPageState extends State<LoginPage> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF003BFF),
-              Color(0xFFFFFFFF),
-            ],
+            colors: [Color(0xFF003BFF), Color(0xFFFFFFFF)],
           ),
         ),
-        
+
         child: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
@@ -106,28 +111,19 @@ class _LoginPageState extends State<LoginPage> {
 
                   const Text(
                     "ยินดีต้อนรับ",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),
+                    style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
 
                   const SizedBox(height: 5),
 
                   // ใส่โลโก้ของคุณ
-                  Image.asset(
-                    "assets/image/nine.png",
-                    height: 200,
-                  ),
+                  Image.asset("assets/image/nine.png", height: 200),
 
                   const SizedBox(height: 5),
 
                   const Text(
                     "MC MindCare",
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                   ),
 
                   const SizedBox(height: 5),
@@ -135,9 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                   const Text(
                     "คัดกรองสุขภาพจิตเบื้องต้น\nเพื่อเข้าใจตัวเองมากขึ้น",
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 14,
-                    ),
+                    style: TextStyle(fontSize: 14),
                   ),
 
                   const SizedBox(height: 10),
@@ -152,7 +146,8 @@ class _LoginPageState extends State<LoginPage> {
                     controller: passwordController,
                     hint: "Password",
                     icon: Icons.lock,
-                    obscure: true,
+                    obscure: _obscurePassword,
+                    isPassword: true,
                   ),
 
                   const SizedBox(height: 10),
@@ -170,10 +165,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       child: const Text(
                         "Log in / เข้าสู่ระบบ",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black,
-                        ),
+                        style: TextStyle(fontSize: 18, color: Colors.black),
                       ),
                     ),
                   ),
@@ -181,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 15),
 
                   SizedBox(
-                    width: 220,
+                    width: double.infinity,
                     height: 55,
                     child: ElevatedButton(
                       onPressed: goToRegister,
@@ -192,11 +184,8 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       child: const Text(
-                        "Sign Up\nสร้างบัญชี",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
+                        "Sign Up / สร้างบัญชี",
+                        style: TextStyle(fontSize: 18, color: Colors.black),
                       ),
                     ),
                   ),
@@ -206,10 +195,7 @@ class _LoginPageState extends State<LoginPage> {
                   const Text(
                     "หมายเหตุ : แบบประเมินเป็นมาตรฐาน โดยอ้างอิงจากกรมสุขภาพจิต",
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: Colors.black54,
-                    ),
+                    style: TextStyle(fontSize: 11, color: Colors.black54),
                   ),
                 ],
               ),

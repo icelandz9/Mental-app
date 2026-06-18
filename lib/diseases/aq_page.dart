@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/อาการ/DiseaseDetailPage.dart';
+import 'package:my_app/symptoms/disease_detail_page.dart';
 
 class Aqpage extends StatelessWidget {
   const Aqpage({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -14,46 +14,51 @@ class _RegisterPageState extends State<RegisterPage> {
   final _ageController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   String? selectedGender;
+  bool _obscurePassword = true;
+  bool _obscureConfirm = true;
 
   Future<void> register() async {
+    if (_passwordController.text.trim() !=
+        _confirmPasswordController.text.trim()) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("รหัสผ่านไม่ตรงกัน")));
+      return;
+    }
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("สมัครสมาชิกสำเร็จ"),
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("สมัครสมาชิกสำเร็จ")));
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e.message ?? "เกิดข้อผิดพลาด"),
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.message ?? "เกิดข้อผิดพลาด")));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: const Text("สมัครสมาชิก"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.transparent,
         foregroundColor: Colors.white,
+        elevation: 0,
       ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF6C63FF), // สีบน
-              Color(0xFFE8E8FF), // สีล่าง
-            ],
+            colors: [Color(0xFF003BFF), Color(0xFFFFFFFF)],
           ),
         ),
         width: double.infinity,
@@ -62,24 +67,22 @@ class _RegisterPageState extends State<RegisterPage> {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
+              const SizedBox(height: 120),
               const Text(
-                    "MC MindCare",
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
+                "MC MindCare",
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
 
-                  const SizedBox(height: 5),
+              const SizedBox(height: 5),
 
-                  // ใส่โลโก้
-                  Image.asset(
-                    "assets/image/design.png",
-                    height: 160,
-                  ),
+              // ใส่โลโก้
+              Image.asset("assets/image/design.png", height: 160),
 
-                  const SizedBox(height: 15),
+              const SizedBox(height: 15),
 
               TextField(
                 controller: _nameController,
@@ -94,6 +97,10 @@ class _RegisterPageState extends State<RegisterPage> {
               TextField(
                 controller: _ageController,
                 keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(3),
+                ],
                 decoration: const InputDecoration(
                   labelText: "อายุ",
                   border: OutlineInputBorder(),
@@ -134,23 +141,65 @@ class _RegisterPageState extends State<RegisterPage> {
               const SizedBox(height: 15),
               TextField(
                 controller: _passwordController,
-                obscureText: true,
-                decoration: const InputDecoration(
+                obscureText: _obscurePassword,
+                decoration: InputDecoration(
                   labelText: "รหัสผ่าน",
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   filled: true,
                   fillColor: Colors.white,
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscurePassword
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
+                  ),
+                ),
+              ),
+              const SizedBox(height: 15),
+              TextField(
+                controller: _confirmPasswordController,
+                obscureText: _obscureConfirm,
+                decoration: InputDecoration(
+                  labelText: "ยืนยันรหัสผ่าน",
+                  border: const OutlineInputBorder(),
+                  filled: true,
+                  fillColor: Colors.white,
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscureConfirm ? Icons.visibility_off : Icons.visibility,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscureConfirm = !_obscureConfirm;
+                      });
+                    },
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: register,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple,
-                  foregroundColor: Colors.white,
-                  minimumSize: const Size(double.infinity, 48),
+              SizedBox(
+                width: double.infinity,
+                height: 55,
+                child: ElevatedButton(
+                  onPressed: register,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFC8C3FF),
+                    foregroundColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  child: const Text(
+                    "สมัครสมาชิก",
+                    style: TextStyle(fontSize: 18, color: Colors.black),
+                  ),
                 ),
-                child: const Text("สมัครสมาชิก"),
               ),
             ],
           ),
@@ -165,6 +214,7 @@ class _RegisterPageState extends State<RegisterPage> {
     _ageController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 }

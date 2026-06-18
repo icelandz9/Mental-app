@@ -1,17 +1,106 @@
-# my_app
+# MC MindCare — แอปคัดกรองสุขภาพจิตเบื้องต้น
 
-A new Flutter project.
+แอปพลิเคชัน Flutter สำหรับ **คัดกรองสุขภาพจิตเบื้องต้น** ด้วยแบบประเมินมาตรฐาน 7 ชุด
+พร้อมสรุปผลแนว "ผู้ช่วยแพทย์" บอกความเสี่ยงและคำแนะนำว่าควรพบแพทย์หรือไม่
 
-## Getting Started
+> ⚠️ ผลการประเมินเป็นเพียงการ **คัดกรองเบื้องต้น** ไม่ใช่การวินิจฉัยทางการแพทย์
+> การวินิจฉัยที่ถูกต้องต้องทำโดยจิตแพทย์หรือผู้เชี่ยวชาญเท่านั้น
 
-This project is a starting point for a Flutter application.
+---
 
-A few resources to get you started if this is your first Flutter project:
+## ✨ ฟีเจอร์หลัก
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+- 🔐 **เข้าสู่ระบบ / สมัครสมาชิก** ด้วย Firebase Authentication (อีเมล + รหัสผ่าน)
+- 🧠 **แบบประเมิน 7 ชุด รวม 95 ข้อ** ตามแบบทดสอบมาตรฐานจริง
+- 📊 **หน้าสรุปแนวผู้ช่วยแพทย์** — บอกว่าเสี่ยงโรคใด ควรพบแพทย์หรือไม่ พร้อมคำแนะนำรายด้าน
+- 🚨 **เตือนเร่งด่วน** เมื่อพบความเสี่ยงทำร้ายตัวเอง (PHQ-9 ข้อ 9) พร้อมสายด่วนสุขภาพจิต **1323**
+- 💡 **แนวทางการฟื้นฟู** 4 ด้าน: การนอน / อาหาร / ออกกำลังกาย / ผ่อนคลาย
+- 📁 **บันทึกผลลง Firestore** แยกตามผู้ใช้ + แสดงผลล่าสุดในหน้าโปรไฟล์
+- 👤 **โปรไฟล์ส่วนตัว** (ชื่อ เพศ อายุ โรคประจำตัว วันเกิด เบอร์โทร)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## 🧪 แบบประเมินและเกณฑ์คะแนน
+
+| # | สภาวะ | แบบทดสอบ | ข้อ | ช่วงคะแนน | เกณฑ์ |
+|---|--------|----------|-----|-----------|-------|
+| 1 | ซึมเศร้า | PHQ-9 | 9 | 0–27 | 0-4 ปกติ · 5-9 น้อย · 10-14 ปานกลาง · 15-19 ค่อนข้างรุนแรง · 20-27 รุนแรง |
+| 2 | วิตกกังวล | GAD-7 | 7 | 0–21 | 0-4 ปกติ · 5-9 น้อย · 10-14 ปานกลาง · 15-21 รุนแรง |
+| 3 | ความเครียด | PSS-10 | 10 | 0–40 | ข้อ 4,5,7,8 กลับคะแนน · 0-13 ต่ำ · 14-26 ปานกลาง · 27-40 สูง |
+| 4 | สมาธิสั้น (ADHD) | ASRS v1.1 | 18 | Part A 0–6 | นับข้อถึงเกณฑ์ใน 6 ข้อแรก ≥4 = มีแนวโน้ม |
+| 5 | ย้ำคิดย้ำทำ (OCD) | OCI-R | 18 | 0–72 | ≥21 = มีแนวโน้ม |
+| 6 | PTSD | PCL-5 | 20 | 0–80 | ≥31 = มีแนวโน้ม |
+| 7 | ไบโพลาร์ | MDQ | 13 | นับ "ใช่" | ≥7 = ผลคัดกรองเป็นบวก |
+
+---
+
+## 🗂️ โครงสร้างโปรเจกต์
+
+```
+lib/
+├── main.dart                      # จุดเริ่มต้น + ตั้งค่า Firebase
+├── firebase_options.dart          # ค่าตั้ง Firebase (สร้างอัตโนมัติ)
+├── login/register/
+│   ├── login_page.dart            # หน้าเข้าสู่ระบบ
+│   └── register_page.dart         # หน้าสมัครสมาชิก
+├── home/home_page.dart            # หน้าหลัก (เมนูสภาวะ + แนวทางฟื้นฟู)
+├── quiz/quiz_page.dart            # ทางเข้าแบบทดสอบ → QuestionScreen
+├── screens/
+│   ├── question_screen.dart       # หน้าทำแบบทดสอบทีละข้อ
+│   └── result_screen.dart         # หน้าสรุปผล (แนวผู้ช่วยแพทย์)
+├── data/questions_data.dart       # คลังคำถามทั้ง 95 ข้อ + ตัวเลือก/คะแนน
+├── models/question.dart           # โมเดลคำถาม (options, scores, threshold)
+├── symptoms/
+│   └── disease_detail_page.dart   # หน้าอาการ/สาเหตุ/การรักษา ของแต่ละโรค
+├── diseases/                      # หน้าโรคย่อย (depression, anxiety, aq) → ใช้ disease_detail_page
+├── care/
+│   ├── care_page.dart             # เทมเพลตหน้าแนวทางฟื้นฟู (ใช้ร่วมกัน)
+│   └── sleep / food / exercise / relax_page.dart
+└── profile/profile_page.dart      # หน้าโปรไฟล์ + ผลทดสอบล่าสุด
+```
+
+---
+
+## 🚀 การติดตั้งและรัน
+
+ต้องมี [Flutter SDK](https://docs.flutter.dev/get-started/install) ติดตั้งไว้แล้ว
+
+```bash
+# 1. ติดตั้ง dependency
+flutter pub get
+
+# 2. ตรวจสอบโค้ด
+flutter analyze
+
+# 3. รันแอป (เลือก device เอง)
+flutter run
+
+# หรือระบุ device
+flutter run -d emulator-5554   # Android emulator
+flutter run -d chrome          # เว็บ
+```
+
+> 💡 **Emulator แรม:** แนะนำตั้ง RAM ของ AVD อย่างน้อย **4096 MB**
+> ไม่งั้นแอปอาจถูกระบบ Android ปิด (lowmemorykiller) ขณะเปิด Firebase
+
+---
+
+## 🔧 เทคโนโลยีที่ใช้
+
+- **Flutter / Dart**
+- **Firebase Authentication** — ระบบสมาชิก
+- **Cloud Firestore** — เก็บโปรไฟล์และประวัติผลทดสอบ
+- **google_fonts** — ฟอนต์ Noto Sans Thai
+
+---
+
+## 📂 ที่เก็บข้อมูลใน Firestore
+
+```
+users/{uid}                       # ข้อมูลโปรไฟล์
+users/{uid}/results/{autoId}      # ประวัติผลทดสอบแต่ละครั้ง
+  ├── createdAt
+  ├── flaggedCount                # จำนวนด้านที่ควรใส่ใจ
+  ├── selfHarmRisk                # เสี่ยงทำร้ายตัวเองหรือไม่
+  └── results[]                   # ผลแยกแต่ละแบบทดสอบ (instrument, condition, score, max, level, flagged)
+```

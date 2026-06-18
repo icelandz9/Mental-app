@@ -90,57 +90,226 @@ class DiseaseDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final data = diseaseData[diseaseName]!;
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      backgroundColor: const Color(0xFFF6F7FB),
       appBar: AppBar(
-        title: Text(diseaseName),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        foregroundColor: Colors.white,
+        title: Text(
+          diseaseName,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            _menuButton(
-              context,
-              "อาการ",
-              data["อาการ"]!,
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFF2C5BFF), Color(0xFFF6F7FB)],
+            stops: [0.0, 0.45],
+          ),
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (diseaseTitle.isNotEmpty)
+                  _headerCard(),
+                const SizedBox(height: 20),
+                _infoCard(
+                  context,
+                  title: "อาการ",
+                  content: data["อาการ"]!,
+                  icon: Icons.monitor_heart_outlined,
+                  color: const Color(0xFF3B6EFF),
+                ),
+                const SizedBox(height: 16),
+                _infoCard(
+                  context,
+                  title: "สาเหตุ",
+                  content: data["สาเหตุ"]!,
+                  icon: Icons.search_rounded,
+                  color: const Color(0xFFFF9F43),
+                ),
+                const SizedBox(height: 16),
+                _infoCard(
+                  context,
+                  title: "การรักษา",
+                  content: data["การรักษา"]!,
+                  icon: Icons.healing_outlined,
+                  color: const Color(0xFF21C7A8),
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
-            _menuButton(
-              context,
-              "สาเหตุ",
-              data["สาเหตุ"]!,
-            ),
-            const SizedBox(height: 20),
-            _menuButton(
-              context,
-              "การรักษา",
-              data["การรักษา"]!,
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _menuButton(
-      BuildContext context, String title, String content) {
-    return SizedBox(
+  Widget _headerCard() {
+    return Container(
       width: double.infinity,
-      height: 70,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.18),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.4)),
+      ),
+      child: Text(
+        diseaseTitle,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 18,
+          height: 1.4,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+
+  Widget _infoCard(
+    BuildContext context, {
+    required String title,
+    required String content,
+    required IconData icon,
+    required Color color,
+  }) {
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(20),
+      elevation: 3,
+      shadowColor: Colors.black.withValues(alpha: 0.15),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20),
+        onTap: () => _showDetail(context, title, content, icon, color),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Icon(icon, color: color, size: 26),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF222222),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      content,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(Icons.chevron_right, color: Colors.black38),
+            ],
           ),
         ),
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (_) => AlertDialog(
-              title: Text(title),
-              content: Text(content),
+      ),
+    );
+  }
+
+  void _showDetail(
+    BuildContext context,
+    String title,
+    String content,
+    IconData icon,
+    Color color,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
+      builder: (_) => Padding(
+        padding: const EdgeInsets.fromLTRB(24, 16, 24, 28),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                width: 44,
+                height: 5,
+                decoration: BoxDecoration(
+                  color: Colors.black12,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
             ),
-          );
-        },
-        child: Text(title),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: color.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(icon, color: color, size: 24),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Text(
+              content,
+              style: const TextStyle(fontSize: 15, height: 1.6),
+            ),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: color,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+                onPressed: () => Navigator.pop(context),
+                child: const Text("ปิด", style: TextStyle(fontSize: 16)),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
