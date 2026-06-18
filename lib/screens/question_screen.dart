@@ -16,9 +16,6 @@ class _QuestionScreenState extends State<QuestionScreen> {
   int _currentIndex = 0;
   final List<int> _answers = List.filled(questions.length, -1);
 
-  // ทิศทางสไลด์ของ animation (1 = ไปข้างหน้า, -1 = ย้อนกลับ)
-  int _dir = 1;
-
   // ===== ฟังก์ชันเมื่อกดปุ่ม Next =====
   void _onNext() {
     if (_answers[_currentIndex] == -1) {
@@ -40,18 +37,12 @@ class _QuestionScreenState extends State<QuestionScreen> {
       );
       return;
     }
-    setState(() {
-      _dir = 1;
-      _currentIndex++;
-    });
+    setState(() => _currentIndex++);
   }
 
   void _onBack() {
     if (_currentIndex == 0) return;
-    setState(() {
-      _dir = -1;
-      _currentIndex--;
-    });
+    setState(() => _currentIndex--);
   }
 
   // ===== สีประจำหมวด (ดึงจากรหัสแบบทดสอบ คำแรกของ category) =====
@@ -194,17 +185,12 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 // ===== เนื้อหา (การ์ด + ตัวเลือก) มี animation เปลี่ยนข้อ =====
                 Expanded(
                   child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 280),
-                    transitionBuilder: (child, anim) {
-                      final offset = Tween<Offset>(
-                        begin: Offset(0.12 * _dir, 0),
-                        end: Offset.zero,
-                      ).animate(anim);
-                      return FadeTransition(
-                        opacity: anim,
-                        child: SlideTransition(position: offset, child: child),
-                      );
-                    },
+                    duration: const Duration(milliseconds: 220),
+                    switchInCurve: Curves.easeOut,
+                    switchOutCurve: Curves.easeIn,
+                    // fade นุ่มๆ อย่างเดียว ไม่มีการเลื่อนด้านข้าง (กันลายตา)
+                    transitionBuilder: (child, anim) =>
+                        FadeTransition(opacity: anim, child: child),
                     child: SingleChildScrollView(
                       key: ValueKey(_currentIndex),
                       physics: const BouncingScrollPhysics(),
