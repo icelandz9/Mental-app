@@ -31,8 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  # ไอคอนสไตล์ iOS — Flutter framework อ้างถึงโดยอ้อม (เก็บไว้กัน warning/ไอคอนหาย)
   cupertino_icons: ^1.0.8
   shared_preferences: ^2.5.5
   firebase_core: ^4.0.0
