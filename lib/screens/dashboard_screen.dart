@@ -50,7 +50,7 @@ class DashboardScreen extends StatelessWidget {
                     ),
                     const Expanded(
                       child: Text(
-                        'แดชบอร์ดผลประเมิน',
+                        'ผลประเมิน',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 19,
