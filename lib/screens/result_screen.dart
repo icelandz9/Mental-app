@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../data/questions_data.dart';
 import '../theme/app_theme.dart';
 import 'question_screen.dart';
+import 'dashboard_screen.dart';
 
 // ===== สีระดับความรุนแรง (อิงจากระบบสีกลาง) =====
 const Color _cGreen = AppColors.green;
@@ -352,12 +353,33 @@ class _ResultScreenState extends State<ResultScreen> {
                   children: [
                     SizedBox(
                       width: double.infinity,
-                      child: ElevatedButton(
+                      child: ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
+                        ),
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const DashboardScreen(),
+                          ),
+                        ),
+                        icon: const Icon(Icons.insights_rounded, size: 20),
+                        label: const Text('ดูแดชบอร์ดผลของฉัน'),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          side: const BorderSide(color: AppColors.primary),
                         ),
                         onPressed: () => Navigator.pushReplacement(
                           context,

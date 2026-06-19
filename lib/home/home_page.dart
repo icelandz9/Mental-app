@@ -11,6 +11,7 @@ import '../care/exercise_page.dart';
 import '../care/relax_page.dart';
 import '../profile/profile_page.dart';
 import '../login/register/login_page.dart';
+import '../screens/dashboard_screen.dart';
 import '../theme/app_theme.dart';
 
 // ===== ข้อมูลการ์ดสภาวะทางจิต 1 ใบ =====
@@ -201,6 +202,14 @@ class HomePage extends StatelessWidget {
         const Expanded(
           child: Column(crossAxisAlignment: CrossAxisAlignment.start),
         ),
+        _circleIconButton(
+          icon: Icons.insights_rounded,
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const DashboardScreen()),
+          ),
+        ),
+        const SizedBox(width: 14),
         _circleIconButton(
           icon: Icons.person_rounded,
           onTap: () => Navigator.push(
