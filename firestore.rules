@@ -1,0 +1,39 @@
+rules_version = '2';
+
+// ===== กฎความปลอดภัยของ Firestore =====
+// - ผู้ใช้ทั่วไป: อ่าน/แก้ได้เฉพาะข้อมูลของตัวเอง
+// - แอดมิน: อ่านข้อมูลของทุกคนได้ (ใช้กับเว็บแดชบอร์ดแอดมิน)
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ⚠️ เปลี่ยนเป็นอีเมลแอดมินของคุณ (บัญชีนี้ต้องมีใน Firebase Authentication)
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email in ['admin@gmail.com'];
+    }
+
+    // ----- โปรไฟล์ผู้ใช้ -----
+    match /users/{uid} {
+      // อ่านได้ถ้าเป็นเจ้าของ หรือเป็นแอดมิน
+      allow read: if request.auth != null
+        && (request.auth.uid == uid || isAdmin());
+      // แก้ไขได้เฉพาะเจ้าของ
+      allow write: if request.auth != null && request.auth.uid == uid;
+
+      // ----- ผลแบบทดสอบ (อ่านแบบ subcollection ปกติ) -----
+      match /results/{resultId} {
+        allow read: if request.auth != null
+          && (request.auth.uid == uid || isAdmin());
+        allow create: if request.auth != null && request.auth.uid == uid;
+        // ผลทดสอบไม่ให้แก้/ลบ (กันข้อมูลถูกเปลี่ยนย้อนหลัง)
+        allow update, delete: if false;
+      }
+    }
+
+    // ----- อนุญาต collectionGroup query เฉพาะแอดมิน -----
+    // (แดชบอร์ดดึง results ของทุกคนพร้อมกันด้วย collectionGroup('results'))
+    match /{path=**}/results/{resultId} {
+      allow read: if isAdmin();
+    }
+  }
+}

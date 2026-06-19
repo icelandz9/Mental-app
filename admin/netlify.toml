@@ -1,0 +1,5 @@
+# สำหรับ deploy เว็บแอดมินเป็น Netlify site แยก (ตั้ง Base directory = admin)
+# เป็นเว็บ static ไฟล์เดียว ไม่ต้อง build
+[build]
+  publish = "."
+  command = "echo no build needed"

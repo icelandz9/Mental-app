@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MindCare Admin · แดชบอร์ดผู้ดูแล</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- ===== กำลังโหลดครั้งแรก ===== -->
+    <div id="loading">
+      <div class="spinner"></div>
+      กำลังโหลด...
+    </div>
+
+    <!-- ===== หน้า Login ===== -->
+    <div id="loginView" class="login-wrap" style="display: none">
+      <div class="login-card">
+        <div class="logo">🧠</div>
+        <h1>MindCare Admin</h1>
+        <p>แดชบอร์ดสำหรับผู้ดูแล</p>
+        <div id="loginError" class="error"></div>
+        <form id="loginForm">
+          <label>อีเมลแอดมิน</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="admin@mindcare.com"
+            required
+          />
+          <label>รหัสผ่าน</label>
+          <div class="pw-wrap">
+            <input
+              type="password"
+              id="password"
+              placeholder="••••••••"
+              required
+            />
+            <button
+              type="button"
+              class="pw-toggle"
+              id="pwToggle"
+              aria-label="แสดง/ซ่อนรหัสผ่าน"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"
+                />
+                <line x1="1" y1="1" x2="23" y2="23" />
+              </svg>
+            </button>
+          </div>
+          <button type="submit" class="btn" id="loginBtn">เข้าสู่ระบบ</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ===== หน้า Dashboard ===== -->
+    <div id="dashView" style="display: none">
+      <div class="topbar">
+        <div class="logo">🧠</div>
+        <div>
+          <h1>MindCare Admin</h1>
+          <div class="who" id="whoami"></div>
+        </div>
+        <div class="spacer"></div>
+        <button class="logout" id="logoutBtn">ออกจากระบบ</button>
+      </div>
+
+      <div class="container">
+        <div class="stats">
+          <div class="stat">
+            <div class="num" id="stUsers">0</div>
+            <div class="lbl">ผู้ใช้ทั้งหมด</div>
+          </div>
+          <div class="stat">
+            <div class="num" id="stAssess">0</div>
+            <div class="lbl">ครั้งที่ประเมิน</div>
+          </div>
+          <div class="stat">
+            <div class="num" id="stFlagged" style="color: var(--red)">0</div>
+            <div class="lbl">คนที่ควรใส่ใจ</div>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <input
+            type="text"
+            id="search"
+            placeholder="🔍 ค้นหาชื่อ หรือเบอร์โทร..."
+          />
+          <button class="btn" id="exportBtn">ส่งออก CSV</button>
+        </div>
+
+        <div id="list"></div>
+      </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

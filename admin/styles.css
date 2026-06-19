@@ -1,0 +1,381 @@
+:root {
+  --primary: #6b6fd6;
+  --primary-dark: #565ac0;
+  --bg: #f4f5fb;
+  --surface: #fff;
+  --text: #2b2d42;
+  --muted: #6e7180;
+  --border: #e6e8f2;
+  --green: #2e9e6b;
+  --orange: #f59e2e;
+  --red: #e05656;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Noto Sans Thai", sans-serif;
+}
+body {
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ===== หน้า Login ===== */
+.login-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(160deg, var(--primary) 0%, var(--bg) 40%);
+}
+.login-card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 36px 28px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+}
+.login-card h1 {
+  font-size: 22px;
+  text-align: center;
+  margin-bottom: 4px;
+}
+.login-card p {
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+  margin-bottom: 24px;
+}
+.login-card .logo {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  font-size: 30px;
+}
+label {
+  font-size: 13px;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+}
+input {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 15px;
+  margin-bottom: 16px;
+  outline: none;
+  transition: border 0.15s;
+}
+input:focus {
+  border-color: var(--primary);
+}
+.btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 30px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn:hover {
+  background: var(--primary-dark);
+}
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.error {
+  background: #ffebee;
+  color: var(--red);
+  font-size: 13px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  display: none;
+}
+
+/* ===== ช่องรหัสผ่าน + ปุ่มตาเปิด/ปิด ===== */
+.pw-wrap {
+  position: relative;
+  margin-bottom: 16px;
+}
+.pw-wrap input {
+  margin-bottom: 0;
+  padding-right: 46px;
+}
+.pw-toggle {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+}
+.pw-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+.pw-toggle:hover {
+  color: var(--primary);
+}
+
+/* ===== Topbar ===== */
+.topbar {
+  background: var(--primary);
+  color: #fff;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+.topbar .logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+.topbar h1 {
+  font-size: 17px;
+  font-weight: 700;
+}
+.topbar .who {
+  font-size: 12px;
+  opacity: 0.85;
+}
+.topbar .spacer {
+  flex: 1;
+}
+.logout {
+  background: rgba(255, 255, 255, 0.18);
+  border: none;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.logout:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.container {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+}
+
+/* ===== Stats ===== */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.stat {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+.stat .num {
+  font-size: 26px;
+  font-weight: 700;
+}
+.stat .lbl {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* ===== Toolbar ===== */
+.toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.toolbar input {
+  margin: 0;
+  flex: 1;
+  min-width: 180px;
+}
+.toolbar .btn {
+  width: auto;
+  padding: 12px 18px;
+  font-size: 14px;
+  background: var(--green);
+}
+.toolbar .btn:hover {
+  background: #26835a;
+}
+
+/* ===== User card ===== */
+.card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+.avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #eef1fb;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.card-head .name {
+  font-size: 16px;
+  font-weight: 700;
+}
+.card-head .meta {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.badge {
+  padding: 4px 11px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.chev {
+  color: var(--muted);
+  transition: transform 0.2s;
+  font-size: 18px;
+}
+.card.open .chev {
+  transform: rotate(90deg);
+}
+
+.details {
+  display: none;
+  margin-top: 14px;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+.card.open .details {
+  display: block;
+}
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 16px;
+  margin-bottom: 14px;
+  font-size: 13px;
+}
+.info-grid .k {
+  color: var(--muted);
+}
+.assessment {
+  background: var(--bg);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 8px;
+}
+.assessment .date {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.cond {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 0;
+  font-size: 13px;
+}
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.cond .score {
+  margin-left: auto;
+  font-weight: 600;
+}
+.warn {
+  background: #ffebee;
+  color: var(--red);
+  font-size: 12.5px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 50px 20px;
+}
+.empty .ico {
+  font-size: 46px;
+  margin-bottom: 10px;
+}
+
+#loading {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+}
+.spinner {
+  width: 34px;
+  height: 34px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-right: 12px;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
