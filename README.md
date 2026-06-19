@@ -1,5 +1,6 @@
 # MC MindCare — แอปคัดกรองสุขภาพจิตเบื้องต้น
 Link Web-Site: https://mc-mindcare.netlify.app
+Dashboard Admin: https://admin-mindcare.netlify.app
 
 แอปพลิเคชัน Flutter สำหรับ **คัดกรองสุขภาพจิตเบื้องต้น** ด้วยแบบประเมินมาตรฐาน 7 ชุด
 พร้อมสรุปผลแนว "ผู้ช่วยแพทย์" บอกความเสี่ยงและคำแนะนำว่าควรพบแพทย์หรือไม่
