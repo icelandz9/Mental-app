@@ -24,6 +24,23 @@ class _QuestionScreenState extends State<QuestionScreen> {
   static const String _kAnswers = 'quiz_progress_answers';
   static const String _kIndex = 'quiz_progress_index';
 
+  // โหมดธีม (false = สว่าง, true = มืด)
+  bool _isDark = false;
+
+  // ===== ชุดสีตามธีม (มืด = โทน navy เข้ากับสีน้ำเงินของแอป) =====
+  Color get _bg => _isDark ? const Color(0xFF0F1426) : Colors.white;
+  Color get _surface => _isDark ? const Color(0xFF1A2138) : Colors.white;
+  Color get _textPrimary =>
+      _isDark ? const Color(0xFFEDF0FB) : AppColors.textPrimary;
+  Color get _textSecondary =>
+      _isDark ? const Color(0xFF96A0C2) : AppColors.textSecondary;
+  Color get _border =>
+      _isDark ? const Color(0xFF2C3656) : AppColors.border;
+  Color get _chipBg =>
+      _isDark ? const Color(0xFF26304D) : const Color(0xFFEEF1FB);
+  Color get _track =>
+      _isDark ? const Color(0xFF26304D) : const Color(0xFFE7EBF8);
+
   @override
   void initState() {
     super.initState();
@@ -122,29 +139,41 @@ class _QuestionScreenState extends State<QuestionScreen> {
     });
   }
 
-  // ===== สีประจำหมวด (ดึงจากรหัสแบบทดสอบ คำแรกของ category) =====
-  String _instrumentOf(String category) => category.split(' ').first;
-
-  // สีเน้น (accent) แบบเข้ม ใช้กับ progress / ตัวเลือกที่เลือก / ปุ่ม
-  Color _accentColor(String category) {
-    switch (_instrumentOf(category)) {
-      case 'PHQ-9':
-        return const Color(0xFFE8883A); // ส้ม
-      case 'GAD-7':
-        return const Color(0xFF4A90D9); // ฟ้า
-      case 'PSS-10':
-        return const Color(0xFF53B98A); // เขียว
-      case 'ASRS':
-        return const Color(0xFF9B7EDE); // ม่วง
-      case 'OCI-R':
-        return const Color(0xFF3DAE97); // มินต์
-      case 'PCL-5':
-        return const Color(0xFF4FA8C0); // ฟ้าอมเขียว
-      case 'MDQ':
-      default:
-        return const Color(0xFFE0A53C); // เหลืองทอง
-    }
+  // ===== ปุ่ม Reset: ยืนยันแล้วล้างคำตอบ กลับไปข้อแรก =====
+  Future<void> _confirmReset() async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        title: const Text('เริ่มทำใหม่?'),
+        content: const Text('คำตอบทั้งหมดจะถูกล้าง และกลับไปเริ่มที่ข้อแรก'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('ยกเลิก'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('เริ่มใหม่'),
+          ),
+        ],
+      ),
+    );
+    if (ok != true || !mounted) return;
+    setState(() {
+      _dir = -1;
+      _currentIndex = 0;
+      for (int i = 0; i < _answers.length; i++) {
+        _answers[i] = -1;
+      }
+    });
+    _clearProgress();
   }
+
+  // สีเน้น (accent) โทนครามเดียวทั้งหน้า เข้าชุดกับธีมน้ำเงินของแอป
+  Color _accentColor(String instrument) => const Color(0xFF5468FF);
 
   // ทำสีให้เข้มลงเล็กน้อย (สำหรับไล่เฉดปุ่ม)
   Color _darken(Color c, [double amount = 0.12]) =>
@@ -172,8 +201,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
             end: Alignment.bottomCenter,
             stops: const [0.0, 0.4],
             colors: [
-              Color.lerp(accent, Colors.white, 0.88)!,
-              Colors.white,
+              Color.lerp(accent, _bg, _isDark ? 0.80 : 0.88)!,
+              _bg,
             ],
           ),
         ),
@@ -190,18 +219,28 @@ class _QuestionScreenState extends State<QuestionScreen> {
                       icon: Icons.close_rounded,
                       onTap: () => Navigator.pop(context),
                     ),
-                    const Expanded(
+                    Expanded(
                       child: Text(
                         'MentalCheck',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimary,
+                          color: _textPrimary,
                         ),
                       ),
                     ),
-                    const SizedBox(width: 42),
+                    _circleBtn(
+                      icon: _isDark
+                          ? Icons.light_mode_rounded
+                          : Icons.dark_mode_rounded,
+                      onTap: () => setState(() => _isDark = !_isDark),
+                    ),
+                    const SizedBox(width: 8),
+                    _circleBtn(
+                      icon: Icons.refresh_rounded,
+                      onTap: () => _confirmReset(),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 22),
@@ -212,25 +251,32 @@ class _QuestionScreenState extends State<QuestionScreen> {
                   children: [
                     Text(
                       'ข้อ $currentNumber จาก $total',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.textSecondary,
+                        color: _textSecondary,
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 4),
+                          horizontal: 12, vertical: 5),
                       decoration: BoxDecoration(
-                        color: accent.withValues(alpha: 0.15),
+                        color: accent,
                         borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: accent.withValues(alpha: 0.4),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
                       ),
                       child: Text(
                         '$percent%',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 12.5,
                           fontWeight: FontWeight.bold,
-                          color: _darken(accent, 0.05),
+                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -248,7 +294,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     builder: (_, value, _) => LinearProgressIndicator(
                       value: value,
                       minHeight: 8,
-                      backgroundColor: const Color(0xFFECECF2),
+                      backgroundColor: _track,
                       valueColor: AlwaysStoppedAnimation(accent),
                     ),
                   ),
@@ -302,8 +348,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     OutlinedButton(
                       onPressed: _currentIndex == 0 ? null : _onBack,
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: AppColors.textPrimary,
-                        backgroundColor: const Color(0xFFF1F1F6),
+                        foregroundColor: _textPrimary,
+                        backgroundColor: _chipBg,
                         side: BorderSide.none,
                         padding: const EdgeInsets.symmetric(
                             horizontal: 26, vertical: 15),
@@ -328,7 +374,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
   // ===== ปุ่มวงกลม (ปิด) =====
   Widget _circleBtn({required IconData icon, required VoidCallback onTap}) {
     return Material(
-      color: Colors.white,
+      color: _surface,
       shape: const CircleBorder(),
       elevation: 1,
       shadowColor: Colors.black12,
@@ -337,7 +383,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
         onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.all(8),
-          child: Icon(icon, size: 22, color: AppColors.textPrimary),
+          child: Icon(icon, size: 22, color: _textPrimary),
         ),
       ),
     );
@@ -348,7 +394,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: _surface,
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
@@ -381,20 +427,20 @@ class _QuestionScreenState extends State<QuestionScreen> {
                   children: [
                   Text(
                     question.questionTh,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
                       height: 1.4,
-                      color: AppColors.textPrimary,
+                      color: _textPrimary,
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     question.questionEn,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 13,
                       height: 1.4,
-                      color: AppColors.textSecondary,
+                      color: _textSecondary,
                     ),
                   ),
                 ],
@@ -419,10 +465,10 @@ class _QuestionScreenState extends State<QuestionScreen> {
           duration: const Duration(milliseconds: 180),
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
           decoration: BoxDecoration(
-            color: isSelected ? accent.withValues(alpha: 0.10) : Colors.white,
+            color: isSelected ? accent.withValues(alpha: 0.10) : _surface,
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
-              color: isSelected ? accent : AppColors.border,
+              color: isSelected ? accent : _border,
               width: isSelected ? 1.6 : 1,
             ),
             boxShadow: isSelected
@@ -444,7 +490,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 height: 30,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: isSelected ? accent : const Color(0xFFF1F1F6),
+                  color: isSelected ? accent : _chipBg,
                   borderRadius: BorderRadius.circular(9),
                 ),
                 child: Text(
@@ -452,7 +498,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    color: isSelected ? Colors.white : AppColors.textSecondary,
+                    color: isSelected ? Colors.white : _textSecondary,
                   ),
                 ),
               ),
@@ -463,7 +509,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                   style: TextStyle(
                     fontSize: 15,
                     height: 1.3,
-                    color: AppColors.textPrimary,
+                    color: _textPrimary,
                     fontWeight:
                         isSelected ? FontWeight.w600 : FontWeight.normal,
                   ),
