@@ -1,5 +1,15 @@
 [build]
   publish = "build/web"
+  # Netlify ไม่มี Flutter ติดตั้งมาให้ → clone Flutter SDK แล้ว build เอง
+  command = """
+    if [ ! -d "$HOME/flutter" ]; then
+      git clone https://github.com/flutter/flutter.git -b stable --depth 1 $HOME/flutter
+    fi
+    export PATH="$HOME/flutter/bin:$PATH"
+    flutter doctor
+    flutter pub get
+    flutter build web --release
+  """
 
 # Flutter web เป็น SPA — redirect ทุก route กลับไป index.html
 [[redirects]]
