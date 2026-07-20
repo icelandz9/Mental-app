@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:my_app/theme/app_theme.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -28,10 +29,18 @@ class _RegisterPageState extends State<RegisterPage> {
       return;
     }
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final cred = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
+
+      // บันทึกชื่อที่กรอกตอนสมัคร ลงโปรไฟล์ users/{uid}
+      // ใช้ merge เพื่อไม่ทับข้อมูลอื่นที่แก้ทีหลังในหน้าประวัติส่วนตัว
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(cred.user!.uid)
+          .set({'name': _nameController.text.trim()}, SetOptions(merge: true));
+
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
