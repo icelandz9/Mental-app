@@ -367,7 +367,7 @@ class _ResultScreenState extends State<ResultScreen> {
                           ),
                         ),
                         icon: const Icon(Icons.insights_rounded, size: 20),
-                        label: const Text('ดูแดชบอร์ดผลของฉัน'),
+                        label: const Text('ดูผลประเมินของฉัน'),
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -387,7 +387,13 @@ class _ResultScreenState extends State<ResultScreen> {
                             builder: (_) => const QuestionScreen(),
                           ),
                         ),
-                        child: const Text('ทำแบบประเมินอีกครั้ง'),
+                        child: const Text(
+                          'ทำแบบประเมินอีกครั้ง',
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -407,7 +413,11 @@ class _ResultScreenState extends State<ResultScreen> {
                         ),
                         child: const Text(
                           'กลับหน้าโฮม',
-                          style: TextStyle(fontSize: 16, color: Colors.black87),
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black87,
+                          ),
                         ),
                       ),
                     ),
